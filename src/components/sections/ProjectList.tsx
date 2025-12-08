@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
+import Image from 'next/image';
+import { ExternalLink, Calendar, Tag } from 'lucide-react';
 import { Project } from '@/types';
 import { PROJECTS } from '@/lib/constants';
 
@@ -10,27 +12,33 @@ interface ProjectCardProps {
   index: number;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+type QuickToFunc = (value: number) => void;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const xTo = useRef<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const yTo = useRef<any>(null);
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const bgImageRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const bgXTo = useRef<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const bgYTo = useRef<any>(null);
+
+  // Properly typed GSAP quickTo refs
+  const xTo = useRef<QuickToFunc | null>(null);
+  const yTo = useRef<QuickToFunc | null>(null);
+  const bgXTo = useRef<QuickToFunc | null>(null);
+  const bgYTo = useRef<QuickToFunc | null>(null);
+
+  const [isHovered, setIsHovered] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (maskRef.current) {
         xTo.current = gsap.quickTo(maskRef.current, 'left', {
-          duration: 0.2,
-          ease: 'power3',
+          duration: 0.3,
+          ease: 'power2.out',
+        });
+        yTo.current = gsap.quickTo(maskRef.current, 'top', {
+          duration: 0.3,
+          ease: 'power2.out',
         });
       }
 
@@ -46,64 +54,121 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       }
     }, containerRef);
 
-    return () => ctx.revert();
+    /* ========================================
+       🔒 CRITICAL: CLEANUP FUNCTION
+       ======================================== */
+
+    return () => {
+      // Cancel any pending RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      // Kill GSAP context (removes quickTo functions)
+      ctx.revert();
+
+      // Clear refs
+      xTo.current = null;
+      yTo.current = null;
+      bgXTo.current = null;
+      bgYTo.current = null;
+    };
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (containerRef.current) {
+  /* ========================================
+     THROTTLED MOUSE MOVE - PERFORMANCE FIX
+     ======================================== */
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (rafRef.current) return; // Throttle to 60fps max
+
+    rafRef.current = requestAnimationFrame(() => {
+      if (!containerRef.current) return;
+
       const rect = containerRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
+      // Update mask position
       if (xTo.current && yTo.current) {
         xTo.current(x);
         yTo.current(y);
       }
 
+      // Parallax background
       if (bgXTo.current && bgYTo.current) {
         const xPercent = (x / rect.width - 0.5) * 2;
         const yPercent = (y / rect.height - 0.5) * 2;
-        bgXTo.current(xPercent * -20);
-        bgYTo.current(yPercent * -20);
+        bgXTo.current(xPercent * -15);
+        bgYTo.current(yPercent * -15);
       }
-    }
-  };
+
+      rafRef.current = null;
+    });
+  }, []);
+
+  /* ========================================
+     KEYBOARD INTERACTION
+     ======================================== */
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.open(project.link, '_blank', 'noopener,noreferrer');
+      }
+    },
+    [project.link]
+  );
 
   return (
-    <div
+    <article
       ref={containerRef}
-      className="relative w-full min-h-[60vh] border-b border-ink/20 group overflow-hidden flex flex-col justify-between"
+      className="relative w-full min-h-[60vh] border-b border-ink/10 group overflow-hidden flex flex-col justify-between focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-paper transition-all"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
+      tabIndex={0}
+      role="article"
+      aria-labelledby={`project-title-${project.id}`}
+      onKeyDown={handleKeyDown}
     >
-      {/* Layer 1: Wireframe State */}
-      <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 md:p-12 pointer-events-none">
-        <div className="flex justify-between items-start pointer-events-auto">
-          <div className="font-mono text-xs mb-2 bg-ink text-paper px-2 py-1 inline-block">
+      {/* Main Content Layer */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 md:p-12">
+        {/* Header */}
+        <header className="flex justify-between items-start gap-4">
+          <div className="font-mono text-xs bg-ink text-paper px-2 py-1 inline-block uppercase tracking-wider">
             CASE_FILE: {project.id}
           </div>
           <div
-            className={`font-mono text-xs font-bold px-2 py-1 border border-ink transition-colors duration-300 ${
-              project.status === 'VERIFIED'
-                ? 'text-success border-success'
-                : 'text-accent border-accent'
-            }`}
+            className={`
+              font-mono text-xs font-bold px-2 py-1 border-2 uppercase tracking-wider
+              ${
+                project.status === 'VERIFIED'
+                  ? 'text-success border-success'
+                  : 'text-accent border-accent'
+              }
+            `}
+            role="status"
+            aria-label={`Project status: ${project.status}`}
           >
-            STATUS: {project.status}
+            {project.status}
           </div>
-        </div>
+        </header>
 
-        <div className="my-8 md:my-0 pointer-events-none text-ink relative">
+        {/* Project Title - FIXED GLITCH ANIMATION */}
+        <div className="my-8 md:my-0">
           <h2
-            className="text-4xl md:text-7xl font-black uppercase tracking-tighter opacity-20 group-hover:opacity-100 transition-opacity duration-300 mix-blend-difference"
-            data-text={project.title}
+            id={`project-title-${project.id}`}
+            className={`
+              text-4xl md:text-7xl font-black uppercase tracking-tighter
+              text-ink transition-all duration-300
+              ${isHovered ? 'opacity-100' : 'opacity-30'}
+            `}
             style={{
-              animation: isHovered
-                ? 'glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite'
-                : 'none',
+              // Removed infinite glitch animation for accessibility
               textShadow: isHovered
-                ? '2px 2px var(--color-accent), -2px -2px var(--glitch-c)'
+                ? '2px 2px var(--color-accent), -2px -2px var(--color-accent-secondary)'
                 : 'none',
             }}
           >
@@ -111,129 +176,183 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </h2>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8 pointer-events-auto">
+        {/* Footer */}
+        <footer className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+          {/* Project Details */}
           <div className="max-w-md">
-            <p className="font-mono text-sm text-muted mb-4">
+            <p className="font-mono text-sm text-muted mb-4 leading-relaxed">
               {project.description}
             </p>
-            <div className="flex flex-wrap gap-2">
+
+            {/* Tech Stack */}
+            <div
+              className="flex flex-wrap gap-2"
+              role="list"
+              aria-label="Technologies used"
+            >
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="text-[10px] font-mono border border-grid text-dim px-2 py-0.5 uppercase tracking-wide"
+                  role="listitem"
+                  className="inline-flex items-center gap-1 text-[10px] font-mono border border-ink/20 text-muted px-2 py-1 uppercase tracking-wide hover:bg-accent/10 hover:border-accent transition-colors"
                 >
+                  <Tag size={10} />
                   {tech}
                 </span>
               ))}
             </div>
           </div>
 
+          {/* CTA Button */}
           <a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/btn flex items-center gap-4 bg-transparent hover:bg-ink text-ink hover:text-accent border-2 border-ink px-6 py-3 transition-all duration-300"
-            aria-label={`View project details for ${project.title}`}
+            className="group/btn inline-flex items-center gap-3 bg-transparent hover:bg-ink text-ink hover:text-accent border-2 border-ink px-6 py-3 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper"
+            aria-label={`View project details for ${project.title} (opens in new tab)`}
           >
-            <span className="font-mono text-xs font-bold">ACCESS_NODE</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-4 h-4 transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-              />
-            </svg>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider">
+              ACCESS_NODE
+            </span>
+            <ExternalLink
+              size={16}
+              className="transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform"
+            />
           </a>
-        </div>
+        </footer>
       </div>
 
-      {/* Background Image with Parallax */}
-      <div
-        ref={bgImageRef}
-        className="absolute inset-0 opacity-5 grayscale contrast-150 pointer-events-none scale-110 transition-transform duration-75 ease-out"
-        style={{
-          backgroundImage: `url(${project.imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      ></div>
+      {/* Background Image - OPTIMIZED WITH NEXT/IMAGE */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div
+          ref={bgImageRef}
+          className="absolute inset-0 opacity-5 grayscale contrast-125 scale-110 will-change-transform"
+        >
+          <Image
+            src={project.imageUrl}
+            alt="" // Decorative image, described by project title
+            fill
+            quality={50} // Low quality for background
+            className="object-cover"
+            sizes="100vw"
+            priority={index === 0} // Prioritize first project
+            onLoad={() => setImageLoaded(true)}
+          />
+        </div>
 
-      {/* Layer 2: Flashlight Mask (Desktop Only) */}
+        {/* Loading State */}
+        {!imageLoaded && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        )}
+      </div>
+
+      {/* Flashlight Mask (Desktop Only) */}
       <div
         ref={maskRef}
-        className="absolute w-[350px] h-[350px] rounded-full pointer-events-none z-20 bg-ink top-0 left-0 -translate-x-1/2 -translate-y-1/2 hidden md:block"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-        }}
+        className={`
+          absolute w-[350px] h-[350px] rounded-full pointer-events-none z-20
+          top-0 left-0 -translate-x-1/2 -translate-y-1/2
+          hidden md:block
+          transition-opacity duration-300
+          ${isHovered ? 'opacity-100' : 'opacity-0'}
+        `}
+        aria-hidden="true"
       >
-        <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden border-2 border-accent bg-ink">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${project.imageUrl})` }}
-          ></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-            <span className="bg-accent text-ink px-3 py-1 text-xs font-mono font-bold uppercase shadow-lg">
+        <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden border-4 border-accent shadow-glow">
+          <Image
+            src={project.imageUrl}
+            alt=""
+            fill
+            quality={85}
+            className="object-cover"
+            sizes="350px"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent">
+            <span className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm">
               View Details
             </span>
           </div>
         </div>
       </div>
 
-      {/* Mobile Fallback */}
+      {/* Mobile Overlay */}
       <div
-        className={`md:hidden absolute inset-0 bg-ink/90 flex flex-col justify-center items-center px-6 transition-opacity duration-300 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        } pointer-events-none`}
+        className={`
+          md:hidden absolute inset-0 z-20 bg-ink/95 flex flex-col justify-center items-center px-6
+          transition-opacity duration-300 pointer-events-none
+          ${isHovered ? 'opacity-100' : 'opacity-0'}
+        `}
+        aria-hidden="true"
       >
-        <div className="relative z-10 text-center">
-          <h2 className="text-3xl font-bold text-accent mb-2">
+        <div className="text-center">
+          <h3 className="text-3xl font-bold text-accent mb-4">
             {project.title}
-          </h2>
-          <div className="mt-4">
-            <span className="text-paper font-mono text-xs border border-paper px-3 py-1">
-              TAP TO VIEW
-            </span>
-          </div>
+          </h3>
+          <span className="inline-flex items-center gap-2 text-paper font-mono text-xs border-2 border-paper px-4 py-2">
+            <ExternalLink size={12} />
+            TAP TO VIEW
+          </span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
+/* ========================================
+   PROJECT LIST COMPONENT
+   ======================================== */
+
 const ProjectList: React.FC = () => {
   return (
-    <section className="bg-paper relative z-10 py-24">
-      <div className="max-w-400 mx-auto">
-        <div className="px-6 md:px-12 mb-12 flex items-baseline justify-between border-b border-ink pb-4">
+    <section
+      id="portfolio"
+      className="bg-paper relative z-10 py-24"
+      aria-labelledby="portfolio-heading"
+    >
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <header className="px-6 md:px-12 mb-12 flex flex-col md:flex-row items-start md:items-baseline justify-between border-b border-ink/20 pb-4 gap-4">
           <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight">
+            <h2
+              id="portfolio-heading"
+              className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-ink"
+            >
               Portfolio
               <br />
-              Projects
+              <span className="text-accent">Projects</span>
             </h2>
           </div>
-          <div className="text-right hidden md:block">
-            <span className="font-mono text-sm block">
+
+          <div className="text-left md:text-right">
+            <code className="font-mono text-sm block text-ink">
               SELECT * FROM PROJECTS
-            </span>
-            <span className="font-mono text-xs text-dim">
-              WHERE TYPE IN (&apos;QA&apos;, &apos;DEV&apos;)
-            </span>
+            </code>
+            <code className="font-mono text-xs text-muted">
+              WHERE TYPE IN ('QA', 'DEV')
+            </code>
           </div>
+        </header>
+
+        {/* Projects Grid */}
+        <div
+          className="flex flex-col border-t border-ink/20"
+          role="list"
+          aria-label="Project portfolio list"
+        >
+          {PROJECTS.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
         </div>
 
-        <div className="flex flex-col border-t border-ink/20">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i} />
-          ))}
+        {/* Project Count */}
+        <div className="px-6 md:px-12 mt-8 pt-8 border-t border-ink/10">
+          <div className="flex items-center justify-between font-mono text-xs text-muted">
+            <span>TOTAL_PROJECTS: {PROJECTS.length}</span>
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
+              DATABASE_ONLINE
+            </span>
+          </div>
         </div>
       </div>
     </section>

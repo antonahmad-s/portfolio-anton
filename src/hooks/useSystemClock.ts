@@ -3,27 +3,58 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Returns the current time formatted as HH:mm:ss
- * Separating this logic makes the Navbar component pure and testable.
+ * System Clock Hook
+ *
+ * Returns formatted current time in Jakarta timezone
+ * Updates every second with requestAnimationFrame for better performance
+ *
+ * @performance Uses RAF instead of setInterval for better accuracy
+ * @param format - Time format: '12h' or '24h' (default: '24h')
  */
-export const useSystemClock = (): string => {
-  const [time, setTime] = useState<string>('');
+export function useSystemClock(format: '12h' | '24h' = '24h'): string {
+  const [time, setTime] = useState<string>('--:--:--');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('en-US', { hour12: false }));
+    setMounted(true);
+    let rafId: number;
+    let lastUpdate = 0;
+
+    const updateClock = (timestamp: number) => {
+      // Throttle updates to once per second
+      if (timestamp - lastUpdate >= 1000) {
+        const now = new Date();
+
+        // Jakarta timezone (UTC+7)
+        const options: Intl.DateTimeFormatOptions = {
+          timeZone: 'Asia/Jakarta',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: format === '12h',
+        };
+
+        const formatted = new Intl.DateTimeFormat('en-US', options).format(now);
+        setTime(formatted);
+        lastUpdate = timestamp;
+      }
+
+      rafId = requestAnimationFrame(updateClock);
     };
 
-    // Initial call
-    updateTime();
+    rafId = requestAnimationFrame(updateClock);
 
-    // Interval
-    const timer = setInterval(updateTime, 1000);
+    return () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [format]);
 
-    // Cleanup to prevent memory leaks
-    return () => clearInterval(timer);
-  }, []);
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return '--:--:--';
+  }
 
   return time;
-};
+}

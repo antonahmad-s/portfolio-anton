@@ -1,141 +1,390 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import {
+  Wrench,
+  Zap,
+  Database,
+  FileCode,
+  CheckCircle,
+  Info,
+} from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+/* ========================================
+   TYPE DEFINITIONS
+   ======================================== */
+
+interface Skill {
+  name: string;
+  icon?: React.ComponentType<{ size?: number }>;
+  proficiency: 'expert' | 'advanced' | 'intermediate';
+  description?: string;
+}
+
+interface SkillCategory {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  badgeColor: 'accent' | 'accent-secondary';
+  skills: Skill[];
+}
+
+/* ========================================
+   SKILLS DATA
+   ======================================== */
+
+const skillsData: SkillCategory[] = [
+  {
+    id: 'automation',
+    title: 'AUTOMATION',
+    subtitle: '/// SCRIPT_EXECUTION',
+    badge: 'CORE',
+    badgeColor: 'accent',
+    skills: [
+      {
+        name: 'Katalon Studio',
+        proficiency: 'expert',
+        description: '4+ years building enterprise test frameworks',
+      },
+      {
+        name: 'Selenium WebDriver',
+        proficiency: 'expert',
+        description: 'Custom framework development',
+      },
+      {
+        name: 'Java',
+        proficiency: 'advanced',
+        description: 'OOP principles for test automation',
+      },
+      {
+        name: 'Cucumber BDD',
+        proficiency: 'advanced',
+        description: 'Behavior-driven test scenarios',
+      },
+      {
+        name: 'Groovy',
+        proficiency: 'intermediate',
+        description: 'Katalon custom keywords',
+      },
+    ],
+  },
+  {
+    id: 'manual',
+    title: 'MANUAL & TOOLS',
+    subtitle: '/// ANALOG_CONTROLS',
+    badge: 'ESSENTIAL',
+    badgeColor: 'accent-secondary',
+    skills: [
+      {
+        name: 'Postman API',
+        proficiency: 'expert',
+        description: 'RESTful API testing & automation',
+      },
+      {
+        name: 'Toad Oracle DB',
+        proficiency: 'advanced',
+        description: 'Database validation & queries',
+      },
+      {
+        name: 'Jira',
+        proficiency: 'expert',
+        description: 'Agile project management',
+      },
+      {
+        name: 'Silk Central',
+        proficiency: 'advanced',
+        description: 'Test management platform',
+      },
+      {
+        name: 'Regression Testing',
+        proficiency: 'expert',
+        description: 'End-to-end system validation',
+      },
+      {
+        name: 'UAT',
+        proficiency: 'expert',
+        description: 'User acceptance coordination',
+      },
+    ],
+  },
+  {
+    id: 'development',
+    title: 'WEB DEVELOPMENT',
+    subtitle: '/// NEW_PROTOCOLS',
+    badge: 'LEARNING',
+    badgeColor: 'accent',
+    skills: [
+      { name: 'Next.js 15', proficiency: 'advanced' },
+      { name: 'React 19', proficiency: 'advanced' },
+      { name: 'TypeScript', proficiency: 'advanced' },
+      { name: 'Tailwind CSS v4', proficiency: 'expert' },
+      { name: 'GSAP', proficiency: 'advanced' },
+      { name: 'Hono', proficiency: 'intermediate' },
+      { name: 'GenAI Integration', proficiency: 'intermediate' },
+    ],
+  },
+];
+
+/* ========================================
+   SKILLS SECTION COMPONENT
+   ======================================== */
 
 const Skills: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+
+  /* ========================================
+     GSAP ANIMATIONS - WITH CLEANUP
+     ======================================== */
 
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     const ctx = gsap.context(() => {
-      // Staggered reveal for skill boxes
-      gsap.from('.skill-box', {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      // Skill boxes stagger
+      const boxesTrigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 75%',
+        once: true,
+        onEnter: () => {
+          gsap.from('.skill-box', {
+            y: 60,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+            clearProps: 'all',
+          });
         },
       });
 
-      // Staggered reveal for skill tags
-      gsap.from('.skill-tag', {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.05,
-        ease: 'back.out(1.7)',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 60%',
+      // Skill tags stagger
+      const tagsTrigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.from('.skill-tag', {
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.04,
+            ease: 'back.out(1.4)',
+            clearProps: 'all',
+          });
         },
       });
+
+      scrollTriggersRef.current.push(boxesTrigger, tagsTrigger);
     }, sectionRef);
 
-    return () => ctx.revert();
+    /* ========================================
+       🔒 CRITICAL: CLEANUP FUNCTION
+       ======================================== */
+
+    return () => {
+      scrollTriggersRef.current.forEach((trigger) => trigger.kill());
+      scrollTriggersRef.current = [];
+      ctx.revert();
+    };
   }, []);
+
+  /* ========================================
+     PROFICIENCY INDICATOR
+     ======================================== */
+
+  const getProficiencyColor = (level: Skill['proficiency']) => {
+    switch (level) {
+      case 'expert':
+        return 'bg-accent';
+      case 'advanced':
+        return 'bg-success';
+      case 'intermediate':
+        return 'bg-gray-400';
+    }
+  };
+
+  const getProficiencyLabel = (level: Skill['proficiency']) => {
+    switch (level) {
+      case 'expert':
+        return 'EXPERT';
+      case 'advanced':
+        return 'ADVANCED';
+      case 'intermediate':
+        return 'LEARNING';
+    }
+  };
+
+  /* ========================================
+     RENDER
+     ======================================== */
 
   return (
     <section
       ref={sectionRef}
+      id="skills"
       className="py-24 px-6 md:px-12 bg-paper relative z-10"
+      aria-labelledby="skills-heading"
     >
-      <div className="max-w-400 mx-auto mb-16">
-        <h2 className="text-4xl md:text-6xl font-serif font-bold uppercase mb-4">
+      {/* Section Header */}
+      <div className="max-w-7xl mx-auto mb-16">
+        <h2
+          id="skills-heading"
+          className="text-4xl md:text-6xl font-serif font-bold uppercase mb-4 text-ink"
+        >
           Instrumentation
           <br />
           <span className="text-accent">Inventory</span>
         </h2>
-        <div className="w-full h-[2px] bg-linear-to-r from-accent via-accent/50 to-transparent"></div>
+        <div className="w-full h-[2px] bg-gradient-to-r from-accent via-accent/50 to-transparent" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-400 mx-auto">
-        {/* Automation Box - Glassmorphism */}
-        <motion.div
-          className="skill-box glass-panel p-8 relative hover-glow"
-          whileHover={{
-            y: -8,
-            boxShadow: '0 20px 50px rgba(0, 255, 178, 0.2)',
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="absolute top-0 right-0 bg-accent text-paper px-4 py-1 font-mono text-xs font-bold rounded-bl-lg">
-            AUTOMATION
-          </div>
-          <h3 className="font-mono text-xl mb-8 text-muted">
-            {'/// SCRIPT_EXECUTION'}
-          </h3>
+      {/* Skills Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 max-w-7xl mx-auto">
+        {skillsData.map((category) => (
+          <article
+            key={category.id}
+            className="skill-box glass-panel p-8 relative group hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
+            aria-labelledby={`category-${category.id}`}
+          >
+            {/* Badge */}
+            <div
+              className={`
+                absolute top-0 right-0 
+                px-4 py-1 
+                font-mono text-xs font-bold 
+                rounded-bl-lg
+                ${
+                  category.badgeColor === 'accent'
+                    ? 'bg-accent text-ink'
+                    : 'bg-accent-secondary text-paper'
+                }
+              `}
+            >
+              {category.badge}
+            </div>
 
-          <div className="flex flex-wrap gap-3">
-            {[
-              'Katalon Studio',
-              'Selenium Webdriver',
-              'Java',
-              'Cucumber BDD',
-              'Groovy',
-            ].map((skill) => (
-              <motion.div
-                key={skill}
-                className="skill-tag group relative"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="inline-block glass-panel-sm px-4 py-2 font-mono text-sm font-bold text-ink hover:bg-accent hover:text-paper transition-colors cursor-default">
-                  {skill}
+            {/* Category Header */}
+            <h3
+              id={`category-${category.id}`}
+              className="font-mono text-xl mb-2 text-ink font-bold"
+            >
+              {category.title}
+            </h3>
+            <p className="font-mono text-sm mb-8 text-muted">
+              {category.subtitle}
+            </p>
+
+            {/* Skills List */}
+            <ul className="flex flex-wrap gap-3" role="list">
+              {category.skills.map((skill) => (
+                <li key={skill.name} className="skill-tag">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveTooltip(
+                        activeTooltip === skill.name ? null : skill.name
+                      )
+                    }
+                    onMouseEnter={() => setActiveTooltip(skill.name)}
+                    onMouseLeave={() => setActiveTooltip(null)}
+                    className="group relative inline-flex items-center gap-2 glass-panel-sm px-4 py-2 font-mono text-sm font-bold text-ink transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper"
+                    aria-label={`${
+                      skill.name
+                    }, proficiency: ${getProficiencyLabel(skill.proficiency)}`}
+                    aria-describedby={
+                      skill.description ? `desc-${skill.name}` : undefined
+                    }
+                  >
+                    {/* Proficiency Indicator */}
+                    <span
+                      className={`
+                        w-2 h-2 rounded-full 
+                        ${getProficiencyColor(skill.proficiency)}
+                        animate-pulse
+                      `}
+                      aria-hidden="true"
+                    />
+
+                    <span className="group-hover:text-accent transition-colors">
+                      {skill.name}
+                    </span>
+
+                    {/* Info Icon */}
+                    {skill.description && (
+                      <Info
+                        size={12}
+                        className="text-muted group-hover:text-accent transition-colors"
+                      />
+                    )}
+
+                    {/* Tooltip */}
+                    {skill.description && activeTooltip === skill.name && (
+                      <span
+                        id={`desc-${skill.name}`}
+                        role="tooltip"
+                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-3 py-2 bg-ink text-paper text-xs font-mono leading-relaxed rounded shadow-brutal-sm z-50 pointer-events-none"
+                      >
+                        <span className="block font-bold text-accent mb-1">
+                          {getProficiencyLabel(skill.proficiency)}
+                        </span>
+                        {skill.description}
+
+                        {/* Tooltip arrow */}
+                        <span
+                          className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-ink"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Category Summary */}
+            <div className="mt-6 pt-6 border-t border-ink/10 flex items-center justify-between">
+              <span className="font-mono text-xs text-muted uppercase tracking-wider">
+                {category.skills.length} PROTOCOLS
+              </span>
+              <div className="flex items-center gap-2">
+                <CheckCircle size={14} className="text-success" />
+                <span className="font-mono text-xs text-success uppercase">
+                  OPERATIONAL
                 </span>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-accent text-paper text-[10px] font-mono font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded">
-                  STATUS: OPERATIONAL
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
 
-        {/* Manual Box - Glassmorphism */}
-        <motion.div
-          className="skill-box glass-panel p-8 relative hover-glow"
-          whileHover={{
-            y: -8,
-            boxShadow: '0 20px 50px rgba(255, 0, 122, 0.15)',
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="absolute top-0 right-0 bg-accent-secondary text-paper px-4 py-1 font-mono text-xs font-bold rounded-bl-lg">
-            MANUAL &amp; TOOLS
+      {/* Legend */}
+      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-ink/10">
+        <div className="flex flex-wrap items-center gap-6 font-mono text-xs">
+          <span className="text-muted uppercase tracking-wider">
+            PROFICIENCY_LEGEND:
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+            <span className="text-ink">EXPERT</span>
           </div>
-          <h3 className="font-mono text-xl mb-8 text-muted">
-            {'/// ANALOG_CONTROLS'}
-          </h3>
-
-          <div className="flex flex-wrap gap-3">
-            {[
-              'Postman (API)',
-              'Toad Oracle (DB)',
-              'Jira',
-              'Silk Central',
-              'Regression Testing',
-              'UAT',
-            ].map((skill) => (
-              <motion.div
-                key={skill}
-                className="skill-tag group relative"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="inline-block glass-panel-sm px-4 py-2 font-mono text-sm font-bold text-ink hover:bg-accent-secondary hover:text-paper transition-colors cursor-default">
-                  {skill}
-                </span>
-              </motion.div>
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
+            <span className="text-ink">ADVANCED</span>
           </div>
-        </motion.div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" />
+            <span className="text-ink">LEARNING</span>
+          </div>
+        </div>
       </div>
     </section>
   );

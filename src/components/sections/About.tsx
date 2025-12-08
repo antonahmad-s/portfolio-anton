@@ -1,170 +1,325 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
+import { User, Shield, Code2, TrendingUp } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+/* ========================================
+   ABOUT SECTION COMPONENT
+   ======================================== */
 
 const About: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  /* ========================================
+     DATA CONSTANTS
+     ======================================== */
+
+  const qaSkills = [
+    { icon: Shield, label: 'Risk Mitigation', color: 'text-accent' },
+    { icon: User, label: 'Pixel-Perfect Validation', color: 'text-success' },
+    { icon: TrendingUp, label: 'User-Centric Empathy', color: 'text-ink' },
+    { icon: Code2, label: 'Process Optimization', color: 'text-accent' },
+  ];
+
+  const techStack = [
+    { name: 'Next.js 15', featured: true },
+    { name: 'React 19', featured: false },
+    { name: 'TypeScript', featured: false },
+    { name: 'Tailwind v4', featured: false },
+    { name: 'Hono', featured: false },
+    { name: 'GenAI', featured: false },
+  ];
+
+  /* ========================================
+     ANIMATION SETUP - WITH CLEANUP
+     ======================================== */
 
   useEffect(() => {
+    if (!containerRef.current) return;
+
     const ctx = gsap.context(() => {
-      gsap.from('.module-card', {
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
+      // Module cards animation
+      const cardsTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: 'top 75%',
+        once: true,
+        onEnter: () => {
+          gsap.from('.module-card', {
+            y: 80,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: 'power3.out',
+            clearProps: 'all',
+          });
         },
       });
 
-      gsap.from('.divider-line', {
-        scaleY: 0,
-        transformOrigin: 'top center',
-        duration: 1.5,
-        ease: 'expo.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 60%',
+      // Divider lines animation
+      const dividerTrigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: 'top 60%',
+        once: true,
+        onEnter: () => {
+          gsap.from('.divider-line', {
+            scaleY: 0,
+            transformOrigin: 'top center',
+            duration: 1.5,
+            ease: 'expo.out',
+            clearProps: 'all',
+          });
         },
       });
+
+      scrollTriggersRef.current.push(cardsTrigger, dividerTrigger);
     }, containerRef);
 
-    return () => ctx.revert();
+    /* ========================================
+       🔒 CRITICAL: CLEANUP FUNCTION
+       ======================================== */
+
+    return () => {
+      scrollTriggersRef.current.forEach((trigger) => trigger.kill());
+      scrollTriggersRef.current = [];
+      ctx.revert();
+    };
   }, []);
+
+  /* ========================================
+     RENDER
+     ======================================== */
 
   return (
     <section
       ref={containerRef}
+      id="about"
       className="py-24 px-6 md:px-12 bg-paper relative z-10 overflow-hidden"
+      aria-labelledby="about-heading"
     >
-      <div className="max-w-[100rem] mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="mb-16 flex flex-col md:flex-row items-baseline justify-between border-b border-ink pb-4">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight">
+        <header className="mb-16 flex flex-col md:flex-row items-baseline justify-between border-b border-ink/20 pb-4">
+          <h2
+            id="about-heading"
+            className="text-4xl md:text-5xl font-serif font-bold uppercase tracking-tight text-ink"
+          >
             System Identity
           </h2>
-          <div className="font-mono text-sm mt-2 md:mt-0">
-            <span className="bg-ink text-paper px-2 py-1">
+          <div className="font-mono text-sm mt-2 md:mt-0 flex items-center gap-4">
+            <span className="bg-ink text-paper px-2 py-1 font-bold">
               KERNEL_VERSION: 3.0
             </span>
-            <span className="ml-4 text-gray-500">HYBRID_ARCHITECT</span>
+            <span className="text-muted uppercase tracking-wider">
+              HYBRID_ARCHITECT
+            </span>
           </div>
-        </div>
+        </header>
 
+        {/* Main Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
           {/* Vertical Dividers */}
-          <div className="divider-line absolute left-1/3 top-0 bottom-0 w-[1px] bg-ink hidden md:block -translate-x-1/2 opacity-20"></div>
-          <div className="divider-line absolute left-2/3 top-0 bottom-0 w-[1px] bg-ink hidden md:block -translate-x-1/2 opacity-20"></div>
+          <div
+            className="divider-line absolute left-1/3 top-0 bottom-0 w-px bg-ink/10 hidden md:block -translate-x-1/2"
+            aria-hidden="true"
+          />
+          <div
+            className="divider-line absolute left-2/3 top-0 bottom-0 w-px bg-ink/10 hidden md:block -translate-x-1/2"
+            aria-hidden="true"
+          />
 
-          {/* Column 1: Photo */}
-          <div className="module-card flex flex-col">
-            <div className="font-mono text-xs text-ink border border-ink inline-block px-2 py-1 mb-6 w-max">
+          {/* ========================================
+              COLUMN 1: PERSONNEL PHOTO
+              ======================================== */}
+
+          <article className="module-card flex flex-col">
+            <div
+              className="font-mono text-xs text-ink border border-ink inline-block px-2 py-1 mb-6 w-max uppercase tracking-wider"
+              aria-label="Section label"
+            >
               PERSONNEL_ID
             </div>
 
-            <div className="flex-grow bg-gray-200 relative overflow-hidden min-h-[400px] border border-ink group">
+            <figure className="grow relative overflow-hidden min-h-[400px] border-2 border-ink group bg-gray-100">
               <Image
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
-                alt="Anton Ahmad Susilo"
+                alt="Portrait of Anton Ahmad Susilo, Quality Assurance Architect"
                 fill
-                className="object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 transition-all duration-700"
+                quality={85}
+                priority={false}
+                className={`
+                  object-cover 
+                  grayscale 
+                  contrast-125 
+                  group-hover:grayscale-0 
+                  group-hover:contrast-100 
+                  transition-all 
+                  duration-700
+                  ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+                `}
                 sizes="(max-width: 768px) 100vw, 33vw"
+                onLoad={() => setImageLoaded(true)}
               />
 
+              {/* Fallback while loading */}
+              {!imageLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                  <div className="w-12 h-12 border-4 border-ink border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+
               {/* Corner Markers */}
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-ink"></div>
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink"></div>
+              <div
+                className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-ink pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink pointer-events-none"
+                aria-hidden="true"
+              />
 
               {/* ID Badge */}
-              <div className="absolute bottom-6 left-6 bg-paper px-3 py-2 border border-ink shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <div className="font-bold font-serif text-lg leading-none">
+              <figcaption className="absolute bottom-6 left-6 bg-paper px-3 py-2 border-2 border-ink shadow-brutal-sm">
+                <div className="font-bold font-serif text-lg leading-none text-ink">
                   ANTON A. SUSILO
                 </div>
-                <div className="font-mono text-[10px] text-gray-500 mt-1">
+                <div className="font-mono text-[10px] text-muted mt-1 tracking-wide">
                   ID: QA-ARCH-001
                 </div>
-              </div>
-            </div>
-          </div>
+              </figcaption>
+            </figure>
+          </article>
 
-          {/* Column 2: QA Core */}
-          <div className="module-card">
-            <div className="font-mono text-xs text-accent bg-ink inline-block px-2 py-1 mb-6">
+          {/* ========================================
+              COLUMN 2: QA CORE FOUNDATION
+              ======================================== */}
+
+          <article className="module-card">
+            <div
+              className="font-mono text-xs text-accent bg-ink inline-block px-2 py-1 mb-6 font-bold uppercase tracking-wider"
+              aria-label="Section number"
+            >
               01 // CORE_FOUNDATION
             </div>
-            <h3 className="text-3xl md:text-4xl font-serif leading-tight mb-6">
+
+            <h3 className="text-3xl md:text-4xl font-serif leading-tight mb-6 text-ink">
               The Guardian of Stability.
             </h3>
-            <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-8">
+
+            <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
               My foundation is built on the rigorous principles of Quality
               Assurance. For over 4 years, I have architected test strategies
-              that ensure financial systems don&apos;t just
-              &quot;work&quot;—they persist.
+              that ensure financial systems don't just "work"—they persist.
             </p>
-            <ul className="font-mono text-xs space-y-3 text-gray-500 border-t border-ink/10 pt-4">
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-accent"></div>Risk Mitigation
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-accent"></div>Pixel-Perfect
-                Validation
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-accent"></div>User-Centric Empathy
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-accent"></div>Process Optimization
-              </li>
-            </ul>
-          </div>
 
-          {/* Column 3: AI Dev Evolution */}
-          <div className="module-card">
-            <div className="font-mono text-xs text-ink border border-ink inline-block px-2 py-1 mb-6">
+            {/* Skills List with Icons */}
+            <ul
+              className="space-y-4 border-t border-ink/10 pt-6"
+              role="list"
+              aria-label="Quality Assurance core competencies"
+            >
+              {qaSkills.map((skill, index) => {
+                const Icon = skill.icon;
+                return (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 font-mono text-sm text-ink/80 hover:text-accent transition-colors group"
+                  >
+                    <div
+                      className={`
+                      w-6 h-6 flex items-center justify-center 
+                      border border-ink/20 
+                      group-hover:border-accent 
+                      group-hover:bg-accent/10
+                      transition-all
+                      ${skill.color}
+                    `}
+                    >
+                      <Icon size={14} />
+                    </div>
+                    <span className="group-hover:translate-x-1 transition-transform">
+                      {skill.label}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </article>
+
+          {/* ========================================
+              COLUMN 3: AI DEV EVOLUTION
+              ======================================== */}
+
+          <article className="module-card">
+            <div
+              className="font-mono text-xs text-ink border border-ink inline-block px-2 py-1 mb-6 uppercase tracking-wider font-bold"
+              aria-label="Section number"
+            >
               02 // NEW_EXPANSION
             </div>
-            <h3 className="text-3xl md:text-4xl font-serif leading-tight mb-6 italic">
+
+            <h3 className="text-3xl md:text-4xl font-serif leading-tight mb-6 italic text-ink">
               Compiling the Future.
             </h3>
-            <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-8">
+
+            <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
               Beyond validating code, I am now writing it. I am expanding my
               kernel to become an{' '}
-              <span className="font-bold text-ink bg-accent/20 px-1">
+              <mark className="font-bold text-ink bg-accent/20 px-1 py-0.5">
                 AI Web Developer
-              </span>
+              </mark>
               .
             </p>
 
-            <div className="border border-ink/20 p-5 bg-white/50 relative">
-              <div className="absolute -top-3 left-4 bg-paper px-2 font-mono text-[10px] text-gray-400">
+            {/* Tech Stack Display */}
+            <div
+              className="border-2 border-ink/20 p-5 bg-white/50 relative glass-panel-sm"
+              role="region"
+              aria-label="Technology stack"
+            >
+              <div className="absolute -top-3 left-4 bg-paper px-2 font-mono text-[10px] text-muted uppercase tracking-widest">
                 STACK_EXPLORATION
               </div>
+
               <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 bg-ink text-paper font-mono text-xs font-bold">
-                  Next.js 15
-                </span>
-                <span className="px-3 py-1 border border-ink text-ink font-mono text-xs font-bold hover:bg-accent transition-colors">
-                  React
-                </span>
-                <span className="px-3 py-1 border border-ink text-ink font-mono text-xs font-bold hover:bg-accent transition-colors">
-                  Tailwind
-                </span>
-                <span className="px-3 py-1 border border-ink text-ink font-mono text-xs font-bold hover:bg-accent transition-colors">
-                  Hono
-                </span>
-                <span className="px-3 py-1 border border-ink text-ink font-mono text-xs font-bold hover:bg-accent transition-colors">
-                  GenAI
-                </span>
+                {techStack.map((tech, index) => (
+                  <span
+                    key={index}
+                    className={`
+                      px-3 py-1.5 
+                      font-mono text-xs font-bold 
+                      transition-all duration-300
+                      ${
+                        tech.featured
+                          ? 'bg-ink text-paper shadow-brutal-sm'
+                          : 'border-2 border-ink text-ink hover:bg-accent hover:border-accent hover:-translate-y-1'
+                      }
+                    `}
+                  >
+                    {tech.name}
+                  </span>
+                ))}
               </div>
             </div>
-          </div>
+
+            {/* Status Indicator */}
+            <div
+              className="mt-6 flex items-center gap-2 font-mono text-xs text-muted"
+              role="status"
+              aria-live="polite"
+            >
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+              <span>LEARNING_MODE: ACTIVE</span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
