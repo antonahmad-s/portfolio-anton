@@ -1,26 +1,289 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/* ========================================
+   CSS CUSTOM PROPERTIES - KINETIC GLASS TERMINAL
+   ======================================== */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark Terminal Theme (Default) */
+  --bg-paper: #0d0f12;
+  --text-ink: #e0e0e0;
+  --color-accent: #00ffb2;
+  --color-accent-secondary: #ff007a;
+  --color-success: #00ffb2;
+  --color-grid: #1a1d21;
+  --color-alert: #ff007a;
+  --text-muted: #8892a0;
+  --text-dim: #4a5568;
+  --noise-opacity: 0.03;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(20, 22, 25, 0.7);
+  --glass-border: rgba(224, 224, 224, 0.08);
+  --glass-blur: 16px;
+
+  /* Glow Effects */
+  --glow-mint: rgba(0, 255, 178, 0.4);
+  --glow-pink: rgba(255, 0, 122, 0.4);
+  --glow-mint-soft: rgba(0, 255, 178, 0.15);
+
+  /* Glitch Colors */
+  --glitch-r: #ff007a;
+  --glitch-b: #00ffb2;
+  --glitch-c: #00d4ff;
 }
+
+.dark {
+  /* Enhanced Dark Theme */
+  --bg-paper: #050607;
+  --text-ink: #f0f0f0;
+  --color-accent: #00ffb2;
+  --color-accent-secondary: #ff007a;
+  --color-success: #00ffb2;
+  --color-grid: #151820;
+  --color-alert: #ff007a;
+  --text-muted: #9aa3b0;
+  --text-dim: #5a6478;
+  --noise-opacity: 0.04;
+  --glass-bg: rgba(10, 12, 15, 0.8);
+}
+
+/* Light Theme Override */
+.light {
+  --bg-paper: #f8f9fa;
+  --text-ink: #0d0f12;
+  --color-accent: #00c896;
+  --color-accent-secondary: #e6006a;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(13, 15, 18, 0.08);
+  --glow-mint: rgba(0, 200, 150, 0.3);
+}
+
+/* ========================================
+   TAILWIND v4 THEME INLINE
+   ======================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--bg-paper);
+  --color-ink: var(--text-ink);
+  --color-accent: var(--color-accent);
+  --color-accent-secondary: var(--color-accent-secondary);
+  --color-success: var(--color-success);
+  --color-grid: var(--color-grid);
+  --color-alert: var(--color-alert);
+  --color-muted: var(--text-muted);
+  --color-dim: var(--text-dim);
+
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --shadow-brutal: 8px 8px 0px 0px var(--text-ink);
+  --shadow-brutal-sm: 4px 4px 0px 0px var(--text-ink);
+  --shadow-glow: 0 0 30px var(--glow-mint);
+  --shadow-glow-pink: 0 0 30px var(--glow-pink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-paper);
+  color: var(--text-ink);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-accent);
+  color: var(--text-ink);
+}
+
+/* ========================================
+   GLOBAL ANIMATIONS
+   ======================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes glitch-skew {
+  0% {
+    transform: skew(0deg);
+  }
+  20% {
+    transform: skew(-10deg);
+  }
+  40% {
+    transform: skew(10deg);
+  }
+  60% {
+    transform: skew(-5deg);
+  }
+  80% {
+    transform: skew(5deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(20% 0 80% 0);
+  }
+  20% {
+    clip-path: inset(60% 0 10% 0);
+  }
+  40% {
+    clip-path: inset(40% 0 50% 0);
+  }
+  60% {
+    clip-path: inset(80% 0 5% 0);
+  }
+  80% {
+    clip-path: inset(10% 0 60% 0);
+  }
+  100% {
+    clip-path: inset(30% 0 30% 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(10% 0 60% 0);
+  }
+  20% {
+    clip-path: inset(30% 0 20% 0);
+  }
+  40% {
+    clip-path: inset(10% 0 80% 0);
+  }
+  60% {
+    clip-path: inset(70% 0 10% 0);
+  }
+  80% {
+    clip-path: inset(50% 0 30% 0);
+  }
+  100% {
+    clip-path: inset(0% 0 90% 0);
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Dashed grid line effect */
+.dashed-line {
+  background-image: linear-gradient(
+    to bottom,
+    currentColor 50%,
+    transparent 50%
+  );
+  background-size: 1px 12px;
+  background-repeat: repeat-y;
+}
+
+/* Noise texture overlay */
+.bg-noise {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2VGaWx0ZXIpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+');
+}
+
+/* ========================================
+   GLASSMORPHISM UTILITIES
+   ======================================== */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+.glass-panel-sm {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+}
+
+.glow-mint {
+  box-shadow: 0 0 30px var(--glow-mint);
+}
+
+.glow-mint-soft {
+  box-shadow: 0 0 20px var(--glow-mint-soft);
+}
+
+.glow-pink {
+  box-shadow: 0 0 30px var(--glow-pink);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 10px 40px var(--glow-mint-soft);
+  transform: translateY(-4px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated gradient background */
+.bg-gradient-animated {
+  background: linear-gradient(
+    135deg,
+    var(--bg-paper) 0%,
+    rgba(0, 255, 178, 0.03) 50%,
+    var(--bg-paper) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Text glow effect */
+.text-glow {
+  text-shadow: 0 0 20px var(--glow-mint);
+}
+
+/* ========================================
+   SELECTION COLORS
+   ======================================== */
+
+::selection {
+  background: var(--color-accent);
+  color: var(--bg-paper);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
