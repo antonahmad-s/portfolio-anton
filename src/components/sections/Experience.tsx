@@ -82,7 +82,6 @@ const Experience: React.FC = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   /* ========================================
      DETECT MOBILE - DISABLE HORIZONTAL SCROLL

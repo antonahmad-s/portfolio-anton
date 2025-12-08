@@ -6,25 +6,31 @@
 
 @theme {
   /* Core Design Tokens - Creates Global Variables */
-  --color-paper-light: #0d0f12;
-  --color-paper-dark: #050607;
 
-  --color-ink-light: #e0e0e0;
-  --color-ink-dark: #f0f0f0;
+  /* Background - Charcoal instead of pure black */
+  --color-paper-light: #1a1d23; /* Charcoal with blue undertone */
+  --color-paper-dark: #0f1115; /* Deep charcoal */
 
-  --color-accent: #00ffb2;
-  --color-accent-secondary: #ff007a;
-  --color-success: #00ffb2;
-  --color-alert: #ff007a;
+  /* Text - Warmer tones */
+  --color-ink-light: #e8eaed; /* Soft white */
+  --color-ink-dark: #f5f6f7; /* Warm white */
 
-  --color-grid-light: #1a1d21;
-  --color-grid-dark: #151820;
+  /* Accent Colors - Golden Yellow & Coral */
+  --color-accent: #ffc000; /* Golden Yellow - vibrant & energetic */
+  --color-accent-secondary: #ffb38e; /* Coral Peach - warm complement */
+  --color-success: #6ee7b7; /* Soft emerald */
+  --color-alert: #fb7185; /* Soft rose */
 
-  --color-muted-light: #8892a0;
-  --color-muted-dark: #9aa3b0;
+  /* Grid & Borders */
+  --color-grid-light: #252931; /* Subtle charcoal */
+  --color-grid-dark: #1c1f26; /* Deep grid */
 
-  --color-dim-light: #4a5568;
-  --color-dim-dark: #5a6478;
+  /* Text hierarchy */
+  --color-muted-light: #94a3b8; /* Slate blue-gray */
+  --color-muted-dark: #a8b5c7; /* Light slate */
+
+  --color-dim-light: #64748b; /* Medium slate */
+  --color-dim-dark: #7589a3; /* Lighter slate */
 
   /* Typography */
   --font-serif: 'Playfair Display', serif;
@@ -62,8 +68,8 @@
     --text-muted: var(--color-muted-light);
     --text-dim: var(--color-dim-light);
     --noise-opacity: var(--noise-opacity-light);
-    --glass-bg: rgba(20, 22, 25, 0.7);
-    --glass-border: rgba(224, 224, 224, 0.08);
+    --glass-bg: rgba(26, 29, 35, 0.7);
+    --glass-border: rgba(232, 234, 237, 0.08);
   }
 
   .dark {
@@ -74,21 +80,20 @@
     --text-muted: var(--color-muted-dark);
     --text-dim: var(--color-dim-dark);
     --noise-opacity: var(--noise-opacity-dark);
-    --glass-bg: rgba(10, 12, 15, 0.8);
+    --glass-bg: rgba(15, 17, 21, 0.8);
   }
 
   .light {
     /* Light theme overrides */
-    --bg-paper: #f8f9fa;
-    --text-ink: #0d0f12;
-    --color-accent: #00c896;
-    --color-accent-secondary: #e6006a;
+    --bg-paper: #f8fafb;
+    --text-ink: #1a1d23;
+    --color-accent: #efbf04;
+    --color-accent-secondary: #ff9470;
     --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(13, 15, 18, 0.08);
+    --glass-border: rgba(26, 29, 35, 0.08);
   }
 
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 80px;
     overflow-x: hidden;
   }
@@ -126,7 +131,7 @@
 
   @supports not (backdrop-filter: blur(1px)) {
     .glass-panel {
-      background: rgba(20, 22, 25, 0.95);
+      background: rgba(26, 29, 35, 0.95);
     }
   }
 
@@ -138,18 +143,18 @@
     border-radius: 8px;
   }
 
-  /* Glow Effects */
-  .glow-mint {
+  /* Glow Effects - Updated for Golden Yellow */
+  .glow-gold {
     box-shadow: 0 0 30px
       color-mix(in oklch, var(--color-accent) 40%, transparent);
   }
 
-  .glow-mint-soft {
+  .glow-gold-soft {
     box-shadow: 0 0 20px
       color-mix(in oklch, var(--color-accent) 15%, transparent);
   }
 
-  .glow-pink {
+  .glow-coral {
     box-shadow: 0 0 30px
       color-mix(in oklch, var(--color-accent-secondary) 40%, transparent);
   }

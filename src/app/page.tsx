@@ -46,15 +46,18 @@ export default function Home() {
     import('@studio-freight/lenis')
       .then(({ default: Lenis }) => {
         lenis = new Lenis({
-          duration: 1.2,
-          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          duration: 0.6,
+          easing: (t: number) => t,
           orientation: 'vertical' as const,
           gestureOrientation: 'vertical' as const,
           smoothWheel: true,
-          wheelMultiplier: 1.0,
+          wheelMultiplier: 1.5,
           touchMultiplier: 2,
-          lerp: 0.05, // Smoother interpolation (reduced from 0.1)
+          lerp: 0.2,
           infinite: false,
+          syncTouch: true,
+          syncTouchLerp: 0.2,
+          touchInertiaMultiplier: 20,
         });
 
         lenisRef.current = lenis;
