@@ -7,30 +7,52 @@
 @theme {
   /* Core Design Tokens - Creates Global Variables */
 
-  /* Background - Charcoal instead of pure black */
-  --color-paper-light: #1a1d23; /* Charcoal with blue undertone */
-  --color-paper-dark: #0f1115; /* Deep charcoal */
+  /* Background Colors */
+  --color-paper-light: #f4f4f0; /* Light cream paper */
+  --color-paper-dark: #0a0a0a; /* Deep Void Black */
 
-  /* Text - Warmer tones */
-  --color-ink-light: #e8eaed; /* Soft white */
-  --color-ink-dark: #f5f6f7; /* Warm white */
+  /* Text Colors */
+  --color-ink-light: #1a1a1a; /* Dark text for light mode */
+  --color-ink-dark: #e0e0e0; /* Off-White Phosphor */
 
-  /* Accent Colors - Golden Yellow & Coral */
-  --color-accent: #ffc000; /* Golden Yellow - vibrant & energetic */
+  /* Accent Colors */
+  --color-accent: #d4ff00; /* Highlighter Yellow - exact match dari screenshot */
   --color-accent-secondary: #ffb38e; /* Coral Peach - warm complement */
-  --color-success: #6ee7b7; /* Soft emerald */
-  --color-alert: #fb7185; /* Soft rose */
+  --color-success: #00cc66; /* Success green */
+  --color-success-dark: #00ff66; /* Neon Green for dark mode */
+  --color-alert: #ff4500; /* Alert orange-red */
+  --color-alert-dark: #ff3333; /* Bright red for dark mode */
 
   /* Grid & Borders */
-  --color-grid-light: #252931; /* Subtle charcoal */
-  --color-grid-dark: #1c1f26; /* Deep grid */
+  --color-grid-light: #d4d4d4; /* Light grid */
+  --color-grid-dark: #333333; /* Dark grid */
 
-  /* Text hierarchy */
-  --color-muted-light: #94a3b8; /* Slate blue-gray */
-  --color-muted-dark: #a8b5c7; /* Light slate */
+  /* Text Hierarchy */
+  --color-muted-light: #666666; /* Muted text light */
+  --color-muted-dark: #888888; /* Muted text dark */
 
-  --color-dim-light: #64748b; /* Medium slate */
-  --color-dim-dark: #7589a3; /* Lighter slate */
+  --color-dim-light: #999999; /* Dim text light */
+  --color-dim-dark: #555555; /* Dim text dark */
+
+  /* Shadow System */
+  --shadow-text: rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+  --shadow-text-light: rgba(0, 0, 0, 0.05); /* Lighter text shadow */
+  --shadow-accent-glow: rgba(212, 255, 0, 0.5); /* Lime yellow glow effect */
+
+  /* Glitch Colors */
+  --glitch-r: #ff0000; /* Red channel */
+  --glitch-b: #0000ff; /* Blue channel */
+  --glitch-c: #00ffff; /* Cyan channel */
+
+  /* Grid & Lines */
+  --color-grid-line: #cccccc; /* Grid line color */
+
+  /* Theme Meta Colors */
+  --theme-light: #f8f9fa; /* Light theme meta color */
+  --theme-dark: #050607; /* Dark theme meta color */
+
+  /* Preloader Specific */
+  --color-preloader-text: #1a1a1a; /* Preloader animation text */
 
   /* Typography */
   --font-serif: 'Playfair Display', serif;
@@ -49,8 +71,8 @@
 @theme inline {
   /* Static values that never change across themes */
   --glass-blur: 16px;
-  --noise-opacity-light: 0.03;
-  --noise-opacity-dark: 0.04;
+  --noise-opacity-light: 0.05;
+  --noise-opacity-dark: 0.08;
   --transition-duration: 0.3s;
   --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -61,15 +83,17 @@
 
 @layer base {
   :root {
-    /* Default theme variables */
+    /* Default theme variables (Light Mode) */
     --bg-paper: var(--color-paper-light);
     --text-ink: var(--color-ink-light);
     --color-grid: var(--color-grid-light);
     --text-muted: var(--color-muted-light);
     --text-dim: var(--color-dim-light);
+    --color-success: var(--color-success);
+    --color-alert: var(--color-alert);
     --noise-opacity: var(--noise-opacity-light);
-    --glass-bg: rgba(26, 29, 35, 0.7);
-    --glass-border: rgba(232, 234, 237, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(26, 26, 26, 0.08);
   }
 
   .dark {
@@ -79,18 +103,22 @@
     --color-grid: var(--color-grid-dark);
     --text-muted: var(--color-muted-dark);
     --text-dim: var(--color-dim-dark);
+    --color-success: var(--color-success-dark);
+    --color-alert: var(--color-alert-dark);
     --noise-opacity: var(--noise-opacity-dark);
-    --glass-bg: rgba(15, 17, 21, 0.8);
+    --glass-bg: rgba(10, 10, 10, 0.8);
+    --glass-border: rgba(224, 224, 224, 0.08);
   }
 
   .light {
-    /* Light theme overrides */
-    --bg-paper: #f8fafb;
-    --text-ink: #1a1d23;
-    --color-accent: #efbf04;
-    --color-accent-secondary: #ff9470;
+    /* Explicit Light theme (optional) */
+    --bg-paper: var(--color-paper-light);
+    --text-ink: var(--color-ink-light);
+    --color-grid: var(--color-grid-light);
+    --text-muted: var(--color-muted-light);
+    --text-dim: var(--color-dim-light);
     --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(26, 29, 35, 0.08);
+    --glass-border: rgba(26, 26, 26, 0.08);
   }
 
   html {
@@ -131,7 +159,7 @@
 
   @supports not (backdrop-filter: blur(1px)) {
     .glass-panel {
-      background: rgba(26, 29, 35, 0.95);
+      background: rgba(10, 10, 10, 0.95);
     }
   }
 
@@ -143,13 +171,13 @@
     border-radius: 8px;
   }
 
-  /* Glow Effects - Updated for Golden Yellow */
-  .glow-gold {
+  /* Glow Effects - Lime Yellow */
+  .glow-lime {
     box-shadow: 0 0 30px
       color-mix(in oklch, var(--color-accent) 40%, transparent);
   }
 
-  .glow-gold-soft {
+  .glow-lime-soft {
     box-shadow: 0 0 20px
       color-mix(in oklch, var(--color-accent) 15%, transparent);
   }
@@ -173,6 +201,23 @@
   .text-glow {
     text-shadow: 0 0 20px
       color-mix(in oklch, var(--color-accent) 40%, transparent);
+  }
+
+  .text-shadow-subtle {
+    text-shadow: 0 2px 4px var(--shadow-text);
+  }
+
+  .text-shadow-light {
+    text-shadow: 0 1px 2px var(--shadow-text-light);
+  }
+
+  .shadow-accent-glow {
+    box-shadow: 0 0 15px var(--shadow-accent-glow);
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
   }
 
   /* Noise Texture - Optimized */

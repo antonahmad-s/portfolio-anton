@@ -331,10 +331,7 @@ const Hero: React.FC = () => {
             <h1
               ref={nameRef}
               id="hero-title"
-              className="text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.85] font-serif font-normal uppercase tracking-tighter text-ink"
-              style={{
-                textShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              }}
+              className="text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.85] font-serif font-normal uppercase tracking-tighter text-ink text-shadow-subtle"
             >
               ANTON
               <br />

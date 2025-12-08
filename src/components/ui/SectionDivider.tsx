@@ -34,7 +34,7 @@ const SectionDivider: React.FC = () => {
       {/* Animated Line */}
       <div
         ref={lineRef}
-        className="absolute top-0 left-0 w-full h-full bg-accent origin-left scale-x-0 shadow-[0_0_15px_rgba(212,255,0,0.5)]"
+        className="absolute top-0 left-0 w-full h-full bg-accent origin-left scale-x-0 shadow-accent-glow"
       ></div>
 
       {/* Start Marker */}

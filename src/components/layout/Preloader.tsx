@@ -82,7 +82,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         );
 
         tl.to(words, {
-          color: '#1A1A1A',
+          color: 'var(--color-preloader-text)',
           duration: 0.1,
         });
       }
@@ -108,7 +108,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         className="absolute inset-0 pointer-events-none opacity-20"
         style={{
           backgroundImage:
-            'linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px)',
+            'linear-gradient(var(--color-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
         }}
       ></div>
