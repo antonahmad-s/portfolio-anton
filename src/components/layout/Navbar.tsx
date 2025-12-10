@@ -128,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({
      EVENT HANDLERS
      ======================================== */
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => setIsOpen((prev) => !prev);
 
   const handleLinkClick = (id: string) => {
     setIsOpen(false);
@@ -147,6 +147,15 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   // Lock body scroll when menu open
+  useEffect(() => {
+    // Keyboard accessibility: close on Escape key
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -168,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   if (!mounted) {
     return (
-      <nav className="fixed top-0 left-0 w-full z-[70] px-6 md:px-12 py-4 bg-paper border-b border-ink/10">
+      <nav className="fixed top-0 left-0 w-full z-70 px-6 md:px-12 py-4 bg-paper border-b border-ink/10">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
@@ -191,7 +200,9 @@ const Navbar: React.FC<NavbarProps> = ({
           FIXED HUD BAR
           ======================================== */}
       <nav
-        className="fixed top-0 left-0 w-full z-[70] px-6 md:px-12 py-4 flex justify-between items-center bg-paper border-b border-ink/10 transition-colors duration-500"
+        className={`fixed top-0 left-0 w-full z-70 px-6 md:px-12 py-4 flex justify-between items-center bg-paper border-b border-ink/10 transition-all duration-500 ${
+          isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
         role="navigation"
         aria-label="Main navigation"
       >
@@ -288,12 +299,12 @@ const Navbar: React.FC<NavbarProps> = ({
             </span>
             <div className="w-6 h-6 flex flex-col justify-center gap-1">
               <span
-                className={`block w-full h-[2px] bg-current transition-transform duration-300 ${
+                className={`block w-full h-0.5 bg-current transition-transform duration-300 ${
                   isOpen ? 'rotate-45 translate-y-[3px]' : ''
                 }`}
               />
               <span
-                className={`block w-full h-[2px] bg-current transition-transform duration-300 ${
+                className={`block w-full h-0.5 bg-current transition-transform duration-300 ${
                   isOpen ? '-rotate-45 -translate-y-[3px]' : ''
                 }`}
               />
@@ -303,7 +314,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
         {/* Scroll Progress Bar */}
         <div
-          className="absolute bottom-0 left-0 w-full h-[2px] bg-ink/10 overflow-hidden"
+          className="absolute bottom-0 left-0 w-full h-0.5 bg-ink/10 overflow-hidden"
           role="progressbar"
           aria-label="Page scroll progress"
           aria-valuenow={0}
@@ -320,15 +331,30 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* ========================================
           SPLIT-SCREEN OVERLAY MENU
           ======================================== */}
-      <div
-        ref={menuRef}
-        id="main-menu"
-        className="fixed inset-0 z-[60] bg-paper flex flex-col md:flex-row translate-y-[-100%] overflow-hidden"
+          <div
+            ref={menuRef}
+            id="main-menu"
+            className={`fixed inset-0 z-80 bg-paper/80 backdrop-blur-xl border-b border-ink/10 flex flex-col md:flex-row overflow-hidden pointer-events-auto ${
+              isOpen ? 'translate-y-0' : '-translate-y-full'
+            }`}
         role="dialog"
         aria-modal="true"
         aria-hidden={!isOpen}
         aria-labelledby="menu-title"
       >
+        <button
+          onClick={toggleMenu}
+          tabIndex={isOpen ? 0 : -1}
+          className="absolute top-6 right-6 md:top-8 md:right-8 z-90 font-mono text-xs font-bold uppercase text-ink hover:text-accent focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper/80 transition-colors flex items-center gap-2"
+          aria-label="Close menu"
+        >
+          <span>CLOSE</span>
+          <div className="w-6 h-6 relative">
+            <span className="absolute inset-x-0 top-2 h-0.5 bg-current rotate-45" />
+            <span className="absolute inset-x-0 top-2 h-0.5 bg-current -rotate-45" />
+          </div>
+        </button>
+
         {/* LEFT SIDE: Navigation */}
         <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-start px-8 md:px-24 border-r border-ink/10 relative overflow-y-auto">
           <h2 id="menu-title" className="sr-only">
