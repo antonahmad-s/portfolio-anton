@@ -200,7 +200,7 @@ const Navbar: React.FC<NavbarProps> = ({
           FIXED HUD BAR
           ======================================== */}
       <nav
-        className={`fixed top-0 left-0 w-full z-70 px-6 md:px-12 py-4 flex justify-between items-center bg-paper border-b border-ink/10 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-70 px-6 md:px-12 py-4 flex justify-between items-center bg-paper/80 backdrop-blur-md border-b border-ink/10 transition-all duration-500 ${
           isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
         role="navigation"
@@ -331,12 +331,12 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* ========================================
           SPLIT-SCREEN OVERLAY MENU
           ======================================== */}
-          <div
-            ref={menuRef}
-            id="main-menu"
-            className={`fixed inset-0 z-80 bg-paper/80 backdrop-blur-xl border-b border-ink/10 flex flex-col md:flex-row overflow-hidden pointer-events-auto ${
-              isOpen ? 'translate-y-0' : '-translate-y-full'
-            }`}
+      <div
+        ref={menuRef}
+        id="main-menu"
+        className={`fixed inset-0 z-80 bg-paper/80 backdrop-blur-xl border-b border-ink/10 flex flex-col md:flex-row overflow-hidden pointer-events-auto ${
+          isOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
         role="dialog"
         aria-modal="true"
         aria-hidden={!isOpen}
@@ -345,7 +345,11 @@ const Navbar: React.FC<NavbarProps> = ({
         <button
           onClick={toggleMenu}
           tabIndex={isOpen ? 0 : -1}
-          className="absolute top-6 right-6 md:top-8 md:right-8 z-90 font-mono text-xs font-bold uppercase text-ink hover:text-accent focus:text-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper/80 transition-colors flex items-center gap-2"
+          className="absolute top-6 right-6 md:top-8 md:right-8 z-[90] 
+            font-mono text-xs font-bold uppercase text-ink 
+            hover:text-accent transition-colors
+            focus-visible:outline-none focus-visible:text-accent
+            flex items-center gap-2"
           aria-label="Close menu"
         >
           <span>CLOSE</span>
@@ -356,7 +360,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </button>
 
         {/* LEFT SIDE: Navigation */}
-        <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-start px-8 md:px-24 border-r border-ink/10 relative overflow-y-auto">
+        <div className="w-full md:w-1/2 h-full flex flex-col justify-center items-start px-8 md:px-24 border-r border-ink/10 relative">
           <h2 id="menu-title" className="sr-only">
             Navigation Menu
           </h2>
@@ -401,7 +405,9 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* RIGHT SIDE: System Diagnostics */}
-        <div className="hidden md:flex w-1/2 h-full bg-ink text-paper flex-col justify-center p-24 relative overflow-y-auto">
+        <div className={`hidden md:flex w-1/2 h-full flex-col justify-center p-24 relative ${
+          theme === 'light' ? 'bg-ink text-paper' : 'bg-paper text-ink'
+        }`}>
           {/* Decorative Background */}
           <div
             className="absolute inset-0 opacity-20 pointer-events-none"
@@ -439,10 +445,14 @@ const Navbar: React.FC<NavbarProps> = ({
                   href={`mailto:${email}`}
                   tabIndex={isOpen ? 0 : -1}
                   aria-label={`Send email to ${email}`}
-                  className="border border-paper/20 p-4 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2"
+                  className={`border p-4 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2 ${
+                    theme === 'light'
+                      ? 'border-paper/20 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink'
+                      : 'border-ink/20 hover:bg-ink hover:text-paper focus:bg-ink focus:text-paper'
+                  }`}
                 >
                   <Mail size={16} aria-hidden="true" />
-                  <span className="uppercase">EMAIL_ENCRYPTED</span>
+                  <span className="uppercase">EMAIL</span>
                 </a>
                 <a
                   href="https://github.com/antonahmad-s"
@@ -450,10 +460,14 @@ const Navbar: React.FC<NavbarProps> = ({
                   rel="noopener noreferrer"
                   tabIndex={isOpen ? 0 : -1}
                   aria-label="View GitHub profile (opens in new tab)"
-                  className="border border-paper/20 p-4 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2"
+                  className={`border p-4 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2 ${
+                    theme === 'light'
+                      ? 'border-paper/20 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink'
+                      : 'border-ink/20 hover:bg-ink hover:text-paper focus:bg-ink focus:text-paper'
+                  }`}
                 >
                   <Github size={16} aria-hidden="true" />
-                  <span className="uppercase">GITHUB_REPO</span>
+                  <span className="uppercase">GITHUB</span>
                 </a>
                 <a
                   href="https://linkedin.com/in/antonahmad"
@@ -461,32 +475,56 @@ const Navbar: React.FC<NavbarProps> = ({
                   rel="noopener noreferrer"
                   tabIndex={isOpen ? 0 : -1}
                   aria-label="View LinkedIn profile (opens in new tab)"
-                  className="border border-paper/20 p-4 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2"
+                  className={`border p-4 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300 flex items-center justify-center gap-2 ${
+                    theme === 'light'
+                      ? 'border-paper/20 hover:bg-paper hover:text-ink focus:bg-paper focus:text-ink'
+                      : 'border-ink/20 hover:bg-ink hover:text-paper focus:bg-ink focus:text-paper'
+                  }`}
                 >
                   <Linkedin size={16} aria-hidden="true" />
-                  <span className="uppercase">LINKEDIN_SIGNAL</span>
+                  <span className="uppercase">LINKEDIN</span>
                 </a>
               </div>
             </div>
 
             {/* System Status with EST Badge */}
-            <div className="diagnostic-item mt-12 pt-12 border-t border-paper/20 relative">
+            <div className={`diagnostic-item mt-12 pt-12 relative ${
+              theme === 'light' ? 'border-t border-paper/20' : 'border-t border-ink/20'
+            }`}>
               {/* EST. 2020 Badge */}
               <div className="absolute -top-6 right-0 bg-accent text-ink px-3 py-1 font-mono text-[10px] font-bold tracking-widest">
                 EST. 2020
               </div>
 
-              <div className="font-mono text-[10px] text-muted uppercase tracking-widest flex justify-between mb-2">
-                <span>CPU: NORMAL</span>
-                <span>RAM: 45%</span>
-                <span>NET: SECURE</span>
-              </div>
-              <div className="w-full h-1 bg-paper/10 overflow-hidden">
-                <div className="w-[45%] h-full bg-accent animate-pulse" />
+              {/* Portfolio Impact Stats */}
+              <div className="space-y-6">
+                <div className="flex justify-between items-baseline">
+                  <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
+                    Projects Delivered
+                  </span>
+                  <span className="text-3xl font-serif font-bold">15+</span>
+                </div>
+
+                <div className="flex justify-between items-baseline">
+                  <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
+                    Years Experience
+                  </span>
+                  <span className="text-3xl font-serif font-bold">5</span>
+                </div>
+
+                <div className="flex justify-between items-baseline">
+                  <span className="font-mono text-[10px] text-accent uppercase tracking-widest">
+                    Client Satisfaction
+                  </span>
+                  <span className="text-3xl font-serif font-bold">100%</span>
+                </div>
               </div>
 
-              <div className="mt-6 font-mono text-[10px] text-muted uppercase tracking-widest text-right">
-                SYSTEM STATUS: OPTIMAL
+              {/* Progress Bar Visual */}
+              <div className={`mt-8 w-full h-1 overflow-hidden ${
+                theme === 'light' ? 'bg-paper/10' : 'bg-ink/10'
+              }`}>
+                <div className="w-full h-full bg-accent animate-pulse" />
               </div>
             </div>
           </div>
