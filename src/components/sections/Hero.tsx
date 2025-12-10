@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitType from 'split-type';
 import InspectorWrapper from '../ui/InspectorWrapper';
+
+// Lazy load 3D scene for performance
+const Scene3D = lazy(() => import('../three/Scene3D'));
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -20,28 +23,18 @@ const Hero: React.FC = () => {
   const lineRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLHeadingElement>(null);
-  const scanLineRef = useRef<SVGRectElement>(null);
-  const bgSvgRef = useRef<SVGSVGElement>(null);
 
   // Animation refs for cleanup
   const splitInstanceRef = useRef<SplitType | null>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
 
-  // State for SSR safety
-  const [mounted, setMounted] = useState(false);
-
-  // Prevent SSR issues
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   /* ========================================
      ANIMATION SETUP - WITH PROPER CLEANUP
      ======================================== */
 
   useEffect(() => {
-    if (!mounted || !containerRef.current) return;
+    if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
       // Main timeline
@@ -146,49 +139,6 @@ const Hero: React.FC = () => {
           0.5
         );
       }
-
-      /* ========================================
-         SCANLINE ANIMATION - OPTIMIZED
-         ======================================== */
-
-      if (scanLineRef.current && containerRef.current) {
-        const scanTrigger = ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-          onUpdate: (self) => {
-            if (scanLineRef.current) {
-              const yPos = -20 + self.progress * 140;
-              scanLineRef.current.setAttribute('y', `${yPos}%`);
-            }
-          },
-        });
-
-        scrollTriggersRef.current.push(scanTrigger);
-      }
-
-      /* ========================================
-         BACKGROUND SVG FADE ON SCROLL
-         ======================================== */
-
-      if (bgSvgRef.current) {
-        const bgTrigger = ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-          onUpdate: (self) => {
-            if (bgSvgRef.current) {
-              gsap.set(bgSvgRef.current, {
-                opacity: 0.3 - self.progress * 0.3,
-              });
-            }
-          },
-        });
-
-        scrollTriggersRef.current.push(bgTrigger);
-      }
     }, containerRef);
 
     /* ========================================
@@ -215,7 +165,7 @@ const Hero: React.FC = () => {
       // Revert GSAP context
       ctx.revert();
     };
-  }, [mounted]);
+  }, []);
 
   /* ========================================
      RENDER
@@ -228,91 +178,14 @@ const Hero: React.FC = () => {
       className="relative min-h-[95vh] flex flex-col justify-center px-6 md:px-12 pt-32 overflow-hidden"
       aria-labelledby="hero-title"
     >
-      {/* Background SVG - OPTIMIZED */}
+      {/* 3D Background - CYBER TERRAIN */}
       <div
-        className="absolute inset-0 z-0 flex items-center justify-center opacity-30 pointer-events-none select-none will-change-opacity"
+        className="absolute inset-0 z-0 opacity-40 pointer-events-none select-none"
         aria-hidden="true"
       >
-        <svg
-          ref={bgSvgRef}
-          viewBox="0 0 1920 1080"
-          preserveAspectRatio="xMidYMid slice"
-          className="w-full h-full"
-          role="presentation"
-        >
-          <defs>
-            <mask id="textMask">
-              <rect width="100%" height="100%" fill="black" />
-              <text
-                x="50%"
-                y="40%"
-                textAnchor="middle"
-                className="text-[150px] md:text-[250px] font-black font-serif uppercase tracking-tighter"
-                fill="white"
-                dominantBaseline="middle"
-              >
-                IT QUALITY
-              </text>
-              <text
-                x="50%"
-                y="65%"
-                textAnchor="middle"
-                className="text-[150px] md:text-[250px] font-black font-serif uppercase tracking-tighter"
-                fill="white"
-                dominantBaseline="middle"
-              >
-                ASSURANCE
-              </text>
-              <rect
-                ref={scanLineRef}
-                x="0"
-                y="-20%"
-                width="100%"
-                height="15%"
-                fill="white"
-                opacity="0.8"
-              />
-            </mask>
-
-            {/* Grid Pattern - SIMPLIFIED */}
-            <pattern
-              id="gridPattern"
-              width="60"
-              height="60"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 60 0 L 0 0 0 60"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.5"
-              />
-            </pattern>
-          </defs>
-
-          {/* Masked Content */}
-          <g mask="url(#textMask)" className="text-ink">
-            <rect
-              width="100%"
-              height="100%"
-              fill="url(#gridPattern)"
-              opacity="0.5"
-            />
-
-            {/* Flowchart Elements - REDUCED COMPLEXITY */}
-            <g stroke="currentColor" strokeWidth="2" fill="none">
-              <rect x="300" y="200" width="300" height="150" rx="4" />
-              <path d="M450 350 L450 500" markerEnd="url(#arrow)" />
-              <polygon points="450,500 400,550 500,550" />
-              <rect x="800" y="550" width="300" height="150" rx="4" />
-              <path d="M600 550 L800 550" strokeDasharray="10,5" />
-              <circle cx="1200" cy="400" r="100" />
-              <path d="M600 275 L1100 400" strokeDasharray="5,5" />
-              <rect x="1400" y="300" width="200" height="400" rx="4" />
-              <path d="M1200 400 L1400 400" />
-            </g>
-          </g>
-        </svg>
+        <Suspense fallback={<div className="w-full h-full bg-paper" />}>
+          <Scene3D className="w-full h-full" />
+        </Suspense>
       </div>
 
       {/* Main Content */}
@@ -325,13 +198,14 @@ const Hero: React.FC = () => {
           REF: AAS-2024-V2 // QUALITY_ARCHITECT
         </div>
 
-        {/* Hero Title */}
+        {/* Hero Title - MIX BLEND MODE for contrast */}
         <div className="flex flex-col items-start justify-center">
           <InspectorWrapper label="H1_TITLE" id="hero-name">
             <h1
               ref={nameRef}
               id="hero-title"
-              className="text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.85] font-serif font-normal uppercase tracking-tighter text-ink text-shadow-subtle"
+              className="text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.85] font-serif font-normal uppercase tracking-tighter text-ink text-shadow-subtle mix-blend-difference"
+              style={{ willChange: 'transform' }}
             >
               ANTON
               <br />
@@ -387,9 +261,10 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Accessible alternative for background text */}
+      {/* Accessible alternative for background */}
       <div className="sr-only">
-        Background decoration text: IT Quality Assurance
+        Background decoration: 3D cyber terrain visualization with grid and
+        glitch effects
       </div>
     </section>
   );

@@ -1,5 +1,15 @@
 import { Project, MenuItem } from '@/types';
 
+/* ========================================
+   THREE.JS SHADER COLORS
+   ======================================== */
+export const COLORS = {
+  acid: '#d4ff00', // Highlighter Yellow - matches CSS accent
+  grid: '#0a0a0a', // Deep Void Black - matches paper-dark
+  phosphor: '#e0e0e0', // Off-White Phosphor - matches ink-dark
+  neonGreen: '#00ff66', // Neon Green for peaks
+} as const;
+
 export const MENU_ITEMS: MenuItem[] = [
   { label: 'System Overview', id: 'hero', index: 1 },
   { label: 'Identity Core', id: 'about', index: 2 },

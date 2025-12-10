@@ -94,6 +94,20 @@
     --noise-opacity: var(--noise-opacity-light);
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(26, 26, 26, 0.08);
+
+    /* ========================================
+       INVERTED THEME VARIABLES FOR RIGHT PANEL
+       Light Mode → Dark Panel
+       ======================================== */
+    --panel-bg-inverted: var(--color-paper-dark);
+    --panel-text-inverted: var(--color-ink-dark);
+    --panel-accent-inverted: var(--color-accent);
+    --panel-muted-inverted: var(--color-muted-dark);
+    --panel-border-inverted: rgba(224, 224, 224, 0.2);
+    --panel-dot-pattern: #d4ff00;
+    --panel-hover-bg: var(--color-ink-dark);
+    --panel-hover-text: var(--color-paper-dark);
+    --panel-bar-bg: rgba(224, 224, 224, 0.1);
   }
 
   .dark {
@@ -108,6 +122,20 @@
     --noise-opacity: var(--noise-opacity-dark);
     --glass-bg: rgba(10, 10, 10, 0.8);
     --glass-border: rgba(224, 224, 224, 0.08);
+
+    /* ========================================
+       INVERTED THEME VARIABLES FOR RIGHT PANEL
+       Dark Mode → Light Panel
+       ======================================== */
+    --panel-bg-inverted: var(--color-paper-light);
+    --panel-text-inverted: var(--color-ink-light);
+    --panel-accent-inverted: var(--color-ink-light);
+    --panel-muted-inverted: var(--color-muted-light);
+    --panel-border-inverted: rgba(26, 26, 26, 0.2);
+    --panel-dot-pattern: #1a1a1a;
+    --panel-hover-bg: var(--color-ink-light);
+    --panel-hover-text: var(--color-paper-light);
+    --panel-bar-bg: rgba(26, 26, 26, 0.1);
   }
 
   .light {
@@ -169,6 +197,60 @@
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
     border-radius: 8px;
+  }
+
+  /* ========================================
+     INVERTED PANEL UTILITIES
+     ======================================== */
+  .panel-inverted {
+    background-color: var(--panel-bg-inverted);
+    color: var(--panel-text-inverted);
+  }
+
+  .panel-inverted-accent {
+    color: var(--panel-accent-inverted);
+  }
+
+  .panel-inverted-muted {
+    color: var(--panel-muted-inverted);
+  }
+
+  .panel-inverted-border {
+    border-color: var(--panel-border-inverted);
+  }
+
+  .panel-inverted-hover {
+    transition: all 0.3s var(--transition-timing);
+  }
+
+  .panel-inverted-hover:hover {
+    background-color: var(--panel-hover-bg);
+    color: var(--panel-hover-text);
+  }
+
+  .panel-inverted-hover:focus-visible {
+    background-color: var(--panel-hover-bg);
+    color: var(--panel-hover-text);
+    outline: none;
+  }
+
+  .panel-inverted-bar {
+    background-color: var(--panel-bar-bg);
+  }
+
+  .panel-inverted-bar-fill {
+    background-color: var(--panel-accent-inverted);
+  }
+
+  /* Close Button Visibility Fix */
+  .menu-close-btn {
+    color: var(--panel-text-inverted);
+    transition: color 0.3s var(--transition-timing);
+  }
+
+  .menu-close-btn:hover,
+  .menu-close-btn:focus-visible {
+    color: var(--panel-accent-inverted);
   }
 
   /* Glow Effects - Lime Yellow */
@@ -374,6 +456,23 @@
   .shadow-brutal-hover:hover {
     box-shadow: 12px 12px 0px 0px var(--text-ink);
     transform: translate(-4px, -4px);
+  }
+
+  /* ========================================
+     3D SCENE & BLEND MODE UTILITIES
+     ======================================== */
+
+  /* Mix-blend-mode for accessibility contrast */
+  .mix-blend-difference {
+    mix-blend-mode: difference;
+    isolation: isolate; /* Create new stacking context */
+  }
+
+  /* GPU acceleration for 3D transforms */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
   }
 }
 

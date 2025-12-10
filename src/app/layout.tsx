@@ -169,6 +169,7 @@ export default function RootLayout({
           selection:bg-accent
           selection:text-paper
         `}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
