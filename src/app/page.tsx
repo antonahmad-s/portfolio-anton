@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from 'next-themes';
 
 // Components (with SSR enabled for SEO!)
@@ -10,7 +10,7 @@ import SectionDivider from '@/components/ui/SectionDivider';
 import Hero from '@/components/sections/Hero';
 import Stats from '@/components/sections/Stats';
 import About from '@/components/sections/About';
-import Experience from '@/components/sections/Experience';
+import Experience from '@/components/sections/experience';
 import Skills from '@/components/sections/Skills';
 import ProjectList from '@/components/sections/ProjectList';
 import ContactFooter from '@/components/sections/ContactFooter';
