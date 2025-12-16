@@ -24,10 +24,10 @@ const About: React.FC = () => {
      ======================================== */
 
   const qaSkills = [
-    { icon: Shield, label: 'Risk Mitigation', color: 'text-accent' },
-    { icon: User, label: 'Pixel-Perfect Validation', color: 'text-success' },
+    { icon: Shield, label: 'Risk Mitigation', color: 'text-ink' },
+    { icon: User, label: 'Pixel-Perfect Validation', color: 'text-ink' },
     { icon: TrendingUp, label: 'User-Centric Empathy', color: 'text-ink' },
-    { icon: Code2, label: 'Process Optimization', color: 'text-accent' },
+    { icon: Code2, label: 'Process Optimization', color: 'text-ink' },
   ];
 
   const techStack = [
@@ -231,21 +231,23 @@ const About: React.FC = () => {
                 return (
                   <li
                     key={index}
-                    className="flex items-center gap-3 font-mono text-sm text-ink/80 hover:text-accent transition-colors group"
+                    className="flex items-center gap-3 font-mono text-sm text-ink hover:text-accent transition-colors group cursor-default"
                   >
                     <div
                       className={`
-                      w-6 h-6 flex items-center justify-center 
+                      w-8 h-8 flex items-center justify-center 
                       border border-ink/20 
+                      bg-paper shadow-sm
                       group-hover:border-accent 
                       group-hover:bg-accent/10
-                      transition-all
+                      group-hover:shadow-[2px_2px_0px_var(--color-accent)]
+                      transition-all duration-300
                       ${skill.color}
                     `}
                     >
-                      <Icon size={14} />
+                      <Icon size={16} />
                     </div>
-                    <span className="group-hover:translate-x-1 transition-transform">
+                    <span className="font-bold tracking-tight group-hover:translate-x-1 transition-transform duration-300">
                       {skill.label}
                     </span>
                   </li>
@@ -273,15 +275,14 @@ const About: React.FC = () => {
             <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
               Beyond validating code, I am now writing it. I am expanding my
               kernel to become an{' '}
-              <mark className="font-bold text-ink bg-accent/20 px-1 py-0.5">
+              <mark className="font-bold text-accent bg-black px-1 py-0.5">
                 AI Web Developer
               </mark>
               .
             </p>
 
-            {/* Tech Stack Display */}
             <div
-              className="relative p-6 bg-gradient-to-br from-ink/5 via-white to-accent/10 border border-ink/10 rounded-sm overflow-hidden"
+              className="relative p-6 bg-gradient-to-br from-ink/5 via-paper to-accent/10 border border-ink/10 rounded-sm overflow-hidden"
               role="region"
               aria-label="Technology stack"
             >
@@ -327,23 +328,15 @@ const About: React.FC = () => {
                     key={index}
                     className={`
                       group relative px-4 py-2 
-                      font-mono text-xs font-semibold 
-                      transition-all duration-300 cursor-default
-                      rounded-sm
-                      ${
-                        tech.featured
-                          ? 'bg-gradient-to-r from-ink via-ink to-ink/90 text-paper shadow-md hover:shadow-lg hover:scale-105'
-                          : 'bg-white/80 backdrop-blur-sm border border-ink/20 text-ink hover:border-accent hover:bg-accent/5 hover:-translate-y-0.5 hover:shadow-sm'
-                      }
+                      font-mono text-xs font-bold uppercase tracking-wide
+                      border border-ink text-ink
+                      bg-paper
+                      hover:bg-accent hover:text-ink
+                      hover:shadow-[2px_2px_0px_var(--color-ink)]
+                      hover:-translate-y-0.5 hover:-translate-x-0.5
+                      transition-all duration-200 cursor-default
                     `}
                   >
-                    {/* Glow effect on hover for featured */}
-                    {tech.featured && (
-                      <div
-                        className="absolute inset-0 bg-accent/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity rounded-sm"
-                        aria-hidden="true"
-                      />
-                    )}
                     <span className="relative z-10">{tech.name}</span>
                   </span>
                 ))}

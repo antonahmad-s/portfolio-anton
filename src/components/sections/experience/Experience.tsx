@@ -31,9 +31,9 @@ const experienceData: ExperienceItem[] = [
     period: '2025 - PRESENT',
     dateRange: '2025-01-01',
     responsibilities: [
-      'Spearheading QA strategies for enterprise-scale digital transformation projects.',
-      'Integrating AI-driven testing tools into the CI/CD pipeline.',
-      'Mentoring junior QA engineers on automation best practices.',
+      'Spearheading QA strategies for enterprise-scale digital transformation projects, ensuring 99.9% system reliability.',
+      'Integrating AI-driven testing tools into the CI/CD pipeline, reducing regression cycles by 40%.',
+      'Mentoring 3+ junior QA engineers on automation best practices and modern test architecture.',
     ],
   },
   {
@@ -45,9 +45,9 @@ const experienceData: ExperienceItem[] = [
     period: 'MAY 2022 - 2025',
     dateRange: '2022-05-01/2025-01-01',
     responsibilities: [
-      'Reviewing Functional Design Documents (FDD) & Technical Design Documents (TDD).',
-      'Developing & maintaining automated test scripts using Katalon Studio.',
-      'Lead for User Acceptance Testing (UAT) and deployment verification.',
+      'Prevented critical architectural defects early by enforcing rigorous FDD/TDD reviews, reducing downstream dev fixes by 30%.',
+      'Architected a scalable automation framework in Katalon/Groovy, achieving 70% regression coverage for critical financial modules.',
+      'Led End-to-End release certifications, managing complex data scenarios that automation missed, ensuring 100% bug-free critical path.',
     ],
   },
   {
@@ -59,9 +59,9 @@ const experienceData: ExperienceItem[] = [
     period: 'NOV 2020 - APR 2022',
     dateRange: '2020-11-01/2022-04-30',
     responsibilities: [
-      'Created comprehensive Test Plans and Scenarios based on business requirements.',
-      'Executed rigorous Manual Testing (Functional, Regression, Integration).',
-      'Produced detailed User Manuals for end-user training.',
+      'Designed comprehensive Test Plans and Scenarios for core banking modules based on complex business requirements.',
+      'Executed rigorous Functional, Regression, and Integration testing, identifying high-risk scenarios early.',
+      'Produced detailed User Manuals and technical documentation to streamline end-user training and adoption.',
     ],
   },
 ];
@@ -189,7 +189,7 @@ const Experience: React.FC = () => {
         </div>
 
         {!isMobile && (
-          <div className="mt-4 font-mono text-xs text-gray-500 flex items-center gap-2">
+          <div className="mt-4 font-mono text-xs text-ink/50 flex items-center gap-2">
             <span>SCROLL_DOWN</span>
             <ChevronRight
               size={12}
@@ -217,7 +217,7 @@ const Experience: React.FC = () => {
                   ${
                     exp.status === 'latest'
                       ? 'bg-accent text-ink'
-                      : 'border border-gray-500 text-gray-400'
+                      : 'border border-ink/50 text-ink/70'
                   }
                 `}
               >
@@ -232,20 +232,20 @@ const Experience: React.FC = () => {
                 {exp.company}
               </h3>
 
-              <h4 className="text-lg text-gray-400 font-serif italic mb-4 flex items-center gap-2">
+              <h4 className="text-lg text-ink/80 font-serif italic mb-4 flex items-center gap-2">
                 <Briefcase size={16} aria-hidden="true" focusable={false} />
                 {exp.role}
               </h4>
 
               <time
                 dateTime={exp.dateRange}
-                className="font-mono text-xs text-gray-500 block mb-6"
+                className="font-mono text-xs text-ink/70 block mb-6"
               >
                 {exp.period}
               </time>
 
               <ul
-                className="space-y-3 font-mono text-sm text-gray-300"
+                className="space-y-3 font-mono text-sm text-ink/90"
                 role="list"
               >
                 {exp.responsibilities.map((resp, i) => (
@@ -264,7 +264,7 @@ const Experience: React.FC = () => {
           ))}
 
           <div className="text-center py-8 border-t border-paper/20">
-            <div className="font-mono text-xs text-gray-500 tracking-widest uppercase">
+            <div className="font-mono text-xs text-ink/50 tracking-widest uppercase">
               END_OF_LOGS
             </div>
           </div>
@@ -307,7 +307,7 @@ const Experience: React.FC = () => {
                     ${
                       exp.status === 'latest'
                         ? 'bg-accent text-ink'
-                        : 'border border-gray-500 text-gray-400'
+                        : 'border border-ink/50 text-ink/70'
                     }
                   `}
                 >
@@ -322,14 +322,14 @@ const Experience: React.FC = () => {
                   {exp.company}
                 </h3>
 
-                <h4 className="text-2xl text-gray-400 font-serif italic mb-6 flex items-center gap-2">
+                <h4 className="text-2xl text-ink/80 font-serif italic mb-6 flex items-center gap-2">
                   <Briefcase size={20} aria-hidden="true" focusable={false} />
                   {exp.role}
                 </h4>
 
                 <time
                   dateTime={exp.dateRange}
-                  className="font-mono text-xs text-gray-500 uppercase tracking-wider"
+                  className="font-mono text-xs text-ink/70 uppercase tracking-wider"
                 >
                   {exp.period}
                 </time>
@@ -337,7 +337,7 @@ const Experience: React.FC = () => {
 
               <div className="border-t border-paper/20 pt-6 mt-auto">
                 <ul
-                  className="space-y-4 font-mono text-base text-gray-300"
+                  className="space-y-4 font-mono text-base text-ink/90"
                   role="list"
                 >
                   {exp.responsibilities.map((resp, i) => (
@@ -365,7 +365,7 @@ const Experience: React.FC = () => {
             className="w-[20vw] min-h-[65vh] flex items-center justify-center border-l border-paper/30"
             role="presentation"
           >
-            <div className="rotate-90 font-mono text-xs text-gray-500 tracking-widest uppercase">
+            <div className="rotate-90 font-mono text-xs text-ink/50 tracking-widest uppercase">
               END_OF_LOGS
             </div>
           </div>

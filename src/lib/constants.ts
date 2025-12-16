@@ -25,7 +25,7 @@ export const PROJECTS: Project[] = [
     category: 'QA Automation',
     status: 'VERIFIED',
     description:
-      'Full regression suite for Financial Core Systems. Reduced manual testing time by 70% through automated script execution.',
+      'Full regression suite for Financial Core Systems. Architected the framework that reduced manual testing time by 70% through automated script execution.',
     coordinates: { x: 102, y: 44 },
     imageUrl:
       'https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2070&auto=format&fit=crop',
@@ -49,13 +49,13 @@ export const PROJECTS: Project[] = [
     id: 'AI-CHAT-03',
     title: 'QA Knowledge Bot',
     category: 'AI & Hono',
-    status: 'PENDING',
+    status: 'BETA',
     description:
-      'RAG-based chatbot engine designed to query massive technical documentation for automated test case generation.',
+      'Built an AI-driven Test Case Generator using RAG (Hono + Vector DB) that parses technical specs and auto-generates 50+ valid test scenarios in seconds.',
     coordinates: { x: 45, y: 99 },
     imageUrl:
       'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop',
     link: 'https://github.com/antonahmad-s',
-    techStack: ['Hono', 'OpenAI API', 'Vector DB', 'React'],
+    techStack: ['OpenAI (RAG)', 'Hono', 'Vector DB', 'React'],
   },
 ];

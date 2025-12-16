@@ -4,7 +4,7 @@ export interface Project {
   id: string;
   title: string;
   category: string;
-  status: 'VERIFIED' | 'PENDING' | 'DEPRECATED';
+  status: 'VERIFIED' | 'PENDING' | 'DEPRECATED' | 'BETA';
   description: string;
   coordinates: { x: number; y: number };
   imageUrl: string;

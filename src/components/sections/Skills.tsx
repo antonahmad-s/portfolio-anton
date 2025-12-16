@@ -73,7 +73,7 @@ const skillsData: SkillCategory[] = [
     title: 'MANUAL & TOOLS',
     subtitle: '/// ANALOG_CONTROLS',
     badge: 'ESSENTIAL',
-    badgeColor: 'accent-secondary',
+    badgeColor: 'accent',
     skills: [
       {
         name: 'Postman API',
@@ -278,69 +278,78 @@ const Skills: React.FC = () => {
 
             {/* Skills List */}
             <ul className="flex flex-wrap gap-3" role="list">
-              {category.skills.map((skill) => (
-                <li key={skill.name} className="skill-tag">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveTooltip(
-                        activeTooltip === skill.name ? null : skill.name
-                      )
-                    }
-                    onMouseEnter={() => setActiveTooltip(skill.name)}
-                    onMouseLeave={() => setActiveTooltip(null)}
-                    className="group relative inline-flex items-center gap-2 glass-panel-sm px-4 py-2 font-mono text-sm font-bold text-ink transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper"
-                    aria-label={`${
-                      skill.name
-                    }, proficiency: ${getProficiencyLabel(skill.proficiency)}`}
-                    aria-describedby={
-                      skill.description ? `desc-${skill.name}` : undefined
-                    }
-                  >
-                    {/* Proficiency Indicator */}
-                    <span
+              {category.skills.map((skill) => {
+                const isActive = activeTooltip === skill.name;
+                return (
+                  <li key={skill.name} className="skill-tag">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveTooltip(isActive ? null : skill.name)
+                      }
                       className={`
-                        w-2 h-2 rounded-full 
-                        ${getProficiencyColor(skill.proficiency)}
-                        animate-pulse
+                        group relative flex flex-col items-start gap-2 
+                        glass-panel-sm px-4 py-2 
+                        font-mono text-sm font-bold text-ink 
+                        transition-all duration-300 
+                        focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-paper
+                        ${
+                          isActive
+                            ? 'bg-accent/10 ring-1 ring-accent scale-100 z-10'
+                            : 'hover:scale-105 active:scale-95 hover:bg-white/50'
+                        }
                       `}
-                      aria-hidden="true"
-                    />
-
-                    <span className="group-hover:text-accent transition-colors">
-                      {skill.name}
-                    </span>
-
-                    {/* Info Icon */}
-                    {skill.description && (
-                      <Info
-                        size={12}
-                        className="text-muted group-hover:text-accent transition-colors"
-                      />
-                    )}
-
-                    {/* Tooltip */}
-                    {skill.description && activeTooltip === skill.name && (
-                      <span
-                        id={`desc-${skill.name}`}
-                        role="tooltip"
-                        className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-3 py-2 bg-ink text-paper text-xs font-mono leading-relaxed rounded shadow-brutal-sm z-50 pointer-events-none"
-                      >
-                        <span className="block font-bold text-accent mb-1">
-                          {getProficiencyLabel(skill.proficiency)}
-                        </span>
-                        {skill.description}
-
-                        {/* Tooltip arrow */}
+                      aria-label={`${
+                        skill.name
+                      }, proficiency: ${getProficiencyLabel(
+                        skill.proficiency
+                      )}`}
+                      aria-expanded={isActive}
+                    >
+                      {/* Header Line */}
+                      <div className="flex items-center gap-2 w-full">
                         <span
-                          className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-ink"
+                          className={`
+                            w-2 h-2 rounded-full shrink-0
+                            ${getProficiencyColor(skill.proficiency)}
+                            ${
+                              isActive
+                                ? 'animate-none shadow-[0_0_8px_currentColor]'
+                                : 'animate-pulse'
+                            }
+                          `}
                           aria-hidden="true"
                         />
-                      </span>
-                    )}
-                  </button>
-                </li>
-              ))}
+                        <span className="group-hover:text-accent transition-colors">
+                          {skill.name}
+                        </span>
+                        {skill.description && (
+                          <Info
+                            size={12}
+                            className={`ml-auto shrink-0 transition-transform duration-300 ${
+                              isActive
+                                ? 'rotate-180 text-accent'
+                                : 'text-muted group-hover:text-accent'
+                            }`}
+                          />
+                        )}
+                      </div>
+
+                      {/* Expanded Content (Inline to prevent overlap) */}
+                      {skill.description && isActive && (
+                        <div className="mt-2 pt-2 border-t border-ink/10 w-full text-left">
+                          <span className="block text-[10px] font-bold text-accent mb-1 uppercase tracking-wider">
+                            {getProficiencyLabel(skill.proficiency)}
+                          </span>
+                          <p className="text-xs text-muted font-normal leading-relaxed">
+                            {skill.description}
+                          </p>
+                        </div>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
 
             {/* Category Summary */}

@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Copy,
   Check,
+  MessageCircle,
 } from 'lucide-react';
 
 /**
@@ -47,6 +48,12 @@ export default function ContactFooter() {
       icon: Linkedin,
       href: 'https://linkedin.com/in/antonahmad',
       label: 'Connect on LinkedIn',
+    },
+    {
+      name: 'WhatsApp',
+      icon: MessageCircle,
+      href: 'https://wa.me/6281296064974', // Replace with actual number
+      label: 'Chat on WhatsApp',
     },
   ];
 
@@ -156,13 +163,13 @@ export default function ContactFooter() {
             Reserved
           </p>
 
-          <div className="flex items-center gap-6 font-mono text-[10px] uppercase text-muted">
+          {/* <div className="flex items-center gap-6 font-mono text-[10px] uppercase text-muted">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
               SYSTEM_ONLINE
             </span>
             <span>BLUEPRINT_VER_3.0</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

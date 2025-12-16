@@ -53,12 +53,12 @@ const statsData: Stat[] = [
   {
     id: 'velocity',
     icon: Zap,
-    label: 'TEST_VELOCITY',
-    value: 150,
+    label: 'EFFICIENCY_BOOST',
+    value: 70,
     suffix: '+',
-    unit: 'CASES / CYCLE',
+    unit: 'MANUAL REDUCTION',
     description:
-      'Rigorous execution of functional, regression, and UAT scenarios per sprint.',
+      'Reduction in manual testing time achieved through strategic automation frameworks.',
     color: 'accent-secondary',
   },
 ];
