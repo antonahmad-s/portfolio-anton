@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Image from 'next/image';
-import { User, Shield, Code2, TrendingUp } from 'lucide-react';
+import { User, Shield, Code2, TrendingUp, Download } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -102,7 +102,7 @@ const About: React.FC = () => {
     <section
       ref={containerRef}
       id="about"
-      className="py-24 px-6 md:px-12 bg-paper relative z-10 overflow-hidden"
+      className="min-h-screen py-12 px-6 md:px-12 bg-paper relative z-10 overflow-hidden flex flex-col justify-center"
       aria-labelledby="about-heading"
     >
       <div className="max-w-7xl mx-auto">
@@ -148,7 +148,7 @@ const About: React.FC = () => {
               PERSONNEL_ID
             </div>
 
-            <figure className="grow relative overflow-hidden min-h-[400px] border-2 border-ink group bg-gray-100">
+            <figure className="grow relative overflow-hidden min-h-[280px] md:min-h-[320px] border-2 border-ink group bg-gray-100">
               <Image
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
                 alt="Portrait of Anton Ahmad Susilo, Quality Assurance Architect"
@@ -196,6 +196,27 @@ const About: React.FC = () => {
                 </div>
               </figcaption>
             </figure>
+
+            {/* Download CV Button */}
+            <a
+              href="/assets/cv/CV_Anton_Ahmad_Susilo.pdf"
+              download
+              className="
+                mt-4 flex items-center justify-center gap-3
+                px-6 py-3
+                bg-ink text-paper
+                font-mono text-sm font-bold uppercase tracking-wider
+                border-2 border-ink
+                hover:bg-accent hover:text-ink
+                hover:shadow-[4px_4px_0px_var(--color-ink)]
+                hover:-translate-y-1 hover:-translate-x-1
+                transition-all duration-300
+                group
+              "
+            >
+              <Download size={16} className="group-hover:animate-bounce" />
+              <span>Download CV</span>
+            </a>
           </article>
 
           {/* ========================================
@@ -215,9 +236,11 @@ const About: React.FC = () => {
             </h3>
 
             <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
-              My foundation is built on the rigorous principles of Quality
-              Assurance. For over 5 years, I have architected test strategies
-              that ensure financial systems don't just "work"—they persist.
+              Senior Quality Assurance Engineer with over five years of
+              experience securing software reliability within the Fintech and
+              E-commerce sectors. Proven ability to balance manual rigor with
+              automation strategies (Selenium, Katalon), successfully reducing
+              regression cycles by up to 40%.
             </p>
 
             {/* Skills List with Icons */}
@@ -273,12 +296,11 @@ const About: React.FC = () => {
             </h3>
 
             <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
-              Beyond validating code, I am now writing it. I am expanding my
-              kernel to become an{' '}
-              <mark className="font-bold text-accent bg-black px-1 py-0.5">
-                AI Web Developer
-              </mark>
-              .
+              Currently expanding technical scope into Full-Stack Development,
+              applying expertise in React.js and AI integration to build
+              quality-first web applications. Focused on delivering bug-free
+              user experiences through precise testing and technical
+              adaptability.
             </p>
 
             <div

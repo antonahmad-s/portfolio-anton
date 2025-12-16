@@ -306,7 +306,7 @@ const ProjectList: React.FC = () => {
   return (
     <section
       id="portfolio"
-      className="bg-paper relative z-10 py-24"
+      className="bg-paper relative z-10 py-12"
       aria-labelledby="portfolio-heading"
     >
       <div className="max-w-7xl mx-auto">

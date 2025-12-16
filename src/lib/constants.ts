@@ -20,42 +20,47 @@ export const MENU_ITEMS: MenuItem[] = [
 
 export const PROJECTS: Project[] = [
   {
-    id: 'QA-AUTO-01',
-    title: 'Katalon Automation Suite',
-    category: 'QA Automation',
+    id: 'TRACKWISE',
+    title: 'TrackWISE',
+    category: 'Bug Tracking System',
     status: 'VERIFIED',
     description:
-      'Full regression suite for Financial Core Systems. Architected the framework that reduced manual testing time by 70% through automated script execution.',
+      'Developed a robust bug management platform featuring real-time notification pipelines (Email & Telegram) to accelerate incident response. Engineered custom API endpoints to enable seamless ticket creation directly from external spreadsheets, automating the data entry workflow.',
     coordinates: { x: 102, y: 44 },
     imageUrl:
-      'https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2070&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
     link: 'https://github.com/antonahmad-s',
-    techStack: ['Katalon', 'Groovy', 'Jenkins', 'Git'],
+    techStack: [
+      'API Development',
+      'Automation',
+      'Notification System',
+      'Database',
+    ],
   },
   {
-    id: 'WEB-AI-02',
-    title: 'Blueprint Portfolio',
-    category: 'Next.js + GSAP',
-    status: 'VERIFIED',
-    description:
-      'Immersive portfolio site featuring GSAP animations, Lenis scroll, and Brutalist architecture designed for Awwwards.',
-    coordinates: { x: 89, y: 12 },
-    imageUrl:
-      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
-    link: 'https://github.com/antonahmad-s',
-    techStack: ['Next.js 15', 'GSAP', 'Tailwind', 'TypeScript'],
-  },
-  {
-    id: 'AI-CHAT-03',
-    title: 'QA Knowledge Bot',
-    category: 'AI & Hono',
+    id: 'RAG-HUB',
+    title: 'RAG Knowledge Hub',
+    category: 'AI Documentation Assistant',
     status: 'BETA',
     description:
-      'Built an AI-driven Test Case Generator using RAG (Hono + Vector DB) that parses technical specs and auto-generates 50+ valid test scenarios in seconds.',
+      'Built an intelligent knowledge base utilizing Retrieval-Augmented Generation (RAG) architecture. Integrated vector search logic to enable accurate, context-aware answers from technical documentation, streamlining information retrieval for users.',
     coordinates: { x: 45, y: 99 },
     imageUrl:
       'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop',
     link: 'https://github.com/antonahmad-s',
-    techStack: ['OpenAI (RAG)', 'Hono', 'Vector DB', 'React'],
+    techStack: ['RAG', 'Vector Search', 'AI Integration', 'Technical Docs'],
+  },
+  {
+    id: 'PORTFOLIO',
+    title: 'Fashion Brand Portfolio',
+    category: 'Web Development',
+    status: 'VERIFIED',
+    description:
+      'Designed and deployed a high-performance, visually driven portfolio website. Focused on Responsive Design principles and semantic HTML using Next.js to ensure optimal SEO performance and seamless rendering across all mobile and desktop devices.',
+    coordinates: { x: 89, y: 12 },
+    imageUrl:
+      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
+    link: 'https://github.com/antonahmad-s',
+    techStack: ['Next.js', 'Semantic HTML', 'SEO', 'Responsive Design'],
   },
 ];

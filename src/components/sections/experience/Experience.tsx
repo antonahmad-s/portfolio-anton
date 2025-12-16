@@ -26,28 +26,31 @@ const experienceData: ExperienceItem[] = [
     id: 'edts-2025',
     version: 'v3.0',
     status: 'latest',
-    company: 'PT EDTS',
-    role: 'Senior Quality Assurance',
-    period: '2025 - PRESENT',
-    dateRange: '2025-01-01',
+    company: 'PT. ELEVENIA DIGITAL TEKNOLOGI SUKSES - EDTS',
+    role: 'Quality Assurance Engineer',
+    period: 'JUN 2025 - PRESENT',
+    dateRange: '2025-06-01',
     responsibilities: [
-      'Spearheading QA strategies for enterprise-scale digital transformation projects, ensuring 99.9% system reliability.',
-      'Integrating AI-driven testing tools into the CI/CD pipeline, reducing regression cycles by 40%.',
-      'Mentoring 3+ junior QA engineers on automation best practices and modern test architecture.',
+      'Led End-to-End (E2E) testing for high-risk e-commerce modules, including the "Transaction Refund" system (Klik Indomaret), ensuring absolute financial accuracy and business logic compliance.',
+      'Partnered with Product Managers and Developers to review Functional Designs (FD) early, identifying logic gaps pre-development and reducing design-phase defects by 15%.',
+      'Managed User Acceptance Testing (UAT) phases, acting as the primary liaison between technical teams and end-users to ensure smooth production deployments.',
+      'Developed test case for repetitive regression scenarios to accelerate future sprint cycles.',
     ],
   },
   {
     id: 'mii-2022',
     version: 'v2.0',
     status: 'completed',
-    company: 'PT. Mitra Integrasi Informatika',
+    company: 'PT. Mitra Integrasi Informatika - FIFGROUP',
     role: 'Quality Assurance Engineer',
-    period: 'MAY 2022 - 2025',
-    dateRange: '2022-05-01/2025-01-01',
+    period: 'MAY 2022 - MAY 2025',
+    dateRange: '2022-05-01/2025-05-01',
     responsibilities: [
-      'Prevented critical architectural defects early by enforcing rigorous FDD/TDD reviews, reducing downstream dev fixes by 30%.',
-      'Architected a scalable automation framework in Katalon/Groovy, achieving 70% regression coverage for critical financial modules.',
-      'Led End-to-End release certifications, managing complex data scenarios that automation missed, ensuring 100% bug-free critical path.',
+      'Managed the QA lifecycle for enterprise financial applications, executing comprehensive suites of 150+ test cases per release.',
+      'Validated data integrity between mobile front-ends and backend systems using Postman for API testing, ensuring consistent data synchronization.',
+      'Minimized defect leakage into production by enforcing strict Regression Testing protocols prior to major deployments.',
+      'Accelerated bug-fix turnaround times by providing developers with high-precision bug reports, complete with logs, screenshots, and reproduction steps.',
+      'Worked closely with end users in User Acceptance Testing (UAT) to ensure applications meet business requirements before deployment.',
     ],
   },
   {
@@ -55,13 +58,26 @@ const experienceData: ExperienceItem[] = [
     version: 'v1.0',
     status: 'archived',
     company: 'PT. Tri Nindya Utama',
-    role: 'QA Engineer',
+    role: 'Software Quality Assurance',
     period: 'NOV 2020 - APR 2022',
     dateRange: '2020-11-01/2022-04-30',
     responsibilities: [
-      'Designed comprehensive Test Plans and Scenarios for core banking modules based on complex business requirements.',
-      'Executed rigorous Functional, Regression, and Integration testing, identifying high-risk scenarios early.',
-      'Produced detailed User Manuals and technical documentation to streamline end-user training and adoption.',
+      'Designed and executed manual test plans covering functional, integration, and system testing scopes.',
+      'Authored user manuals and technical documentation to streamline end-user onboarding and support.',
+      'Collaborated with developers during UAT to identify and resolve performance blockers.',
+    ],
+  },
+  {
+    id: 'uni-2017',
+    version: 'v0.5',
+    status: 'archived',
+    company: 'Jakarta State University',
+    role: 'Bachelor of Education - Informatics and Computer Engineering',
+    period: '2017 - 2021',
+    dateRange: '2017-01-01/2021-01-01',
+    responsibilities: [
+      'Graduated with Bachelor of Education degree in Informatics and Computer Engineering.',
+      'Focus on Software Engineering and Educational Technology.',
     ],
   },
 ];
@@ -272,7 +288,7 @@ const Experience: React.FC = () => {
       ) : (
         <div
           ref={trackRef}
-          className="flex gap-0 w-max items-start flex-1 pl-12"
+          className="flex gap-0 w-max items-start flex-1 pl-6 md:pl-12"
           role="list"
           aria-label="Career timeline"
         >
@@ -281,8 +297,8 @@ const Experience: React.FC = () => {
               key={exp.id}
               id={`exp-${exp.id}`}
               className={`
-                w-[60vw] min-h-[65vh] flex flex-col justify-between
-                pl-8 pr-24 py-8 relative group transition-all duration-500
+                w-[85vw] md:w-[70vw] lg:w-[50vw] max-w-[800px] h-[65vh] flex flex-col justify-between
+                pl-8 pr-12 md:pr-16 py-6 relative group transition-all duration-500
                 ${
                   index === 0
                     ? 'border-l-4 border-accent'
@@ -300,58 +316,61 @@ const Experience: React.FC = () => {
               onKeyDown={(e) => handleKeyDown(e, index)}
               onFocus={() => setActiveIndex(index)}
             >
-              <div>
-                <div
-                  className={`
-                    inline-block px-2 py-1 font-mono text-xs font-bold mb-6
-                    ${
-                      exp.status === 'latest'
-                        ? 'bg-accent text-ink'
-                        : 'border border-ink/50 text-ink/70'
-                    }
-                  `}
-                >
-                  {exp.version} {'// '}
-                  {exp.status.toUpperCase()}
+              <div className="flex flex-col h-full overflow-hidden">
+                <div className="mb-4 shrink-0">
+                  <div
+                    className={`
+                      inline-block px-2 py-0.5 font-mono text-[10px] md:text-xs font-bold mb-3
+                      ${
+                        exp.status === 'latest'
+                          ? 'bg-accent text-ink'
+                          : 'border border-ink/50 text-ink/70'
+                      }
+                    `}
+                  >
+                    {exp.version} {'// '}
+                    {exp.status.toUpperCase()}
+                  </div>
+
+                  <h3
+                    id={`exp-title-${exp.id}`}
+                    className="text-2xl md:text-3xl font-serif leading-tight mb-1 break-words line-clamp-2"
+                    title={exp.company}
+                  >
+                    {exp.company}
+                  </h3>
+
+                  <h4 className="text-lg md:text-xl text-ink/80 font-serif italic mb-3 flex items-center gap-2">
+                    <Briefcase size={16} aria-hidden="true" focusable={false} />
+                    {exp.role}
+                  </h4>
+
+                  <time
+                    dateTime={exp.dateRange}
+                    className="font-mono text-[10px] md:text-xs text-ink/70 uppercase tracking-wider block"
+                  >
+                    {exp.period}
+                  </time>
                 </div>
 
-                <h3
-                  id={`exp-title-${exp.id}`}
-                  className="text-5xl font-serif leading-tight mb-2"
-                >
-                  {exp.company}
-                </h3>
-
-                <h4 className="text-2xl text-ink/80 font-serif italic mb-6 flex items-center gap-2">
-                  <Briefcase size={20} aria-hidden="true" focusable={false} />
-                  {exp.role}
-                </h4>
-
-                <time
-                  dateTime={exp.dateRange}
-                  className="font-mono text-xs text-ink/70 uppercase tracking-wider"
-                >
-                  {exp.period}
-                </time>
-              </div>
-
-              <div className="border-t border-paper/20 pt-6 mt-auto">
-                <ul
-                  className="space-y-4 font-mono text-base text-ink/90"
-                  role="list"
-                >
-                  {exp.responsibilities.map((resp, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span
-                        className="text-accent mt-1 shrink-0"
-                        aria-hidden="true"
-                      >
-                        &gt;&gt;
-                      </span>
-                      <span>{resp}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="border-t border-paper/20 pt-4 mt-auto overflow-y-auto pr-2 custom-scrollbar flex-1">
+                  <ul
+                    className="space-y-2 font-mono text-sm text-ink/90"
+                    role="list"
+                  >
+                    {exp.responsibilities.map((resp, i) => (
+                      <li key={i} className="flex items-start gap-2.5">
+                        <span
+                          className="text-accent mt-[3px] shrink-0 text-xs"
+                          aria-hidden="true"
+                        >
+                          &gt;&gt;
+                        </span>
+                        <span className="leading-snug">{resp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               <div
@@ -362,10 +381,10 @@ const Experience: React.FC = () => {
           ))}
 
           <div
-            className="w-[20vw] min-h-[65vh] flex items-center justify-center border-l border-paper/30"
+            className="w-[15vw] h-[65vh] flex items-center justify-center border-l border-paper/30"
             role="presentation"
           >
-            <div className="rotate-90 font-mono text-xs text-ink/50 tracking-widest uppercase">
+            <div className="rotate-90 font-mono text-xs text-ink/50 tracking-widest uppercase whitespace-nowrap">
               END_OF_LOGS
             </div>
           </div>

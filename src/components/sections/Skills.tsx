@@ -36,75 +36,20 @@ interface SkillCategory {
 const skillsData: SkillCategory[] = [
   {
     id: 'automation',
-    title: 'AUTOMATION',
+    title: 'TESTING & AUTOMATION',
     subtitle: '/// SCRIPT_EXECUTION',
     badge: 'CORE',
     badgeColor: 'accent',
     skills: [
-      {
-        name: 'Katalon Studio',
-        proficiency: 'expert',
-        description: '4+ years building enterprise test frameworks',
-      },
-      {
-        name: 'Selenium WebDriver',
-        proficiency: 'expert',
-        description: 'Custom framework development',
-      },
-      {
-        name: 'Java',
-        proficiency: 'advanced',
-        description: 'OOP principles for test automation',
-      },
-      {
-        name: 'Cucumber BDD',
-        proficiency: 'advanced',
-        description: 'Behavior-driven test scenarios',
-      },
-      {
-        name: 'Groovy',
-        proficiency: 'intermediate',
-        description: 'Katalon custom keywords',
-      },
-    ],
-  },
-  {
-    id: 'manual',
-    title: 'MANUAL & TOOLS',
-    subtitle: '/// ANALOG_CONTROLS',
-    badge: 'ESSENTIAL',
-    badgeColor: 'accent',
-    skills: [
-      {
-        name: 'Postman API',
-        proficiency: 'expert',
-        description: 'RESTful API testing & automation',
-      },
-      {
-        name: 'Toad Oracle DB',
-        proficiency: 'advanced',
-        description: 'Database validation & queries',
-      },
-      {
-        name: 'Jira',
-        proficiency: 'expert',
-        description: 'Agile project management',
-      },
-      {
-        name: 'Silk Central',
-        proficiency: 'advanced',
-        description: 'Test management platform',
-      },
-      {
-        name: 'Regression Testing',
-        proficiency: 'expert',
-        description: 'End-to-end system validation',
-      },
-      {
-        name: 'UAT',
-        proficiency: 'expert',
-        description: 'User acceptance coordination',
-      },
+      { name: 'Manual Testing (UI/API)', proficiency: 'expert' },
+      { name: 'Selenium', proficiency: 'expert' },
+      { name: 'Katalon Studio', proficiency: 'expert' },
+      { name: 'Playwright', proficiency: 'advanced' },
+      { name: 'Postman (API Testing)', proficiency: 'expert' },
+      { name: 'Cucumber (BDD)', proficiency: 'advanced' },
+      { name: 'JIRA', proficiency: 'expert' },
+      { name: 'TestRail', proficiency: 'expert' },
+      { name: 'Bugzilla', proficiency: 'intermediate' },
     ],
   },
   {
@@ -114,13 +59,29 @@ const skillsData: SkillCategory[] = [
     badge: 'LEARNING',
     badgeColor: 'accent',
     skills: [
-      { name: 'Next.js 15', proficiency: 'advanced' },
-      { name: 'React 19', proficiency: 'advanced' },
-      { name: 'TypeScript', proficiency: 'advanced' },
-      { name: 'Tailwind CSS v4', proficiency: 'expert' },
-      { name: 'GSAP', proficiency: 'advanced' },
-      { name: 'Hono', proficiency: 'intermediate' },
-      { name: 'GenAI Integration', proficiency: 'intermediate' },
+      { name: 'HTML5', proficiency: 'expert' },
+      { name: 'CSS3', proficiency: 'expert' },
+      { name: 'JavaScript (ES6+)', proficiency: 'advanced' },
+      { name: 'React.js', proficiency: 'advanced' },
+      { name: 'Next.js', proficiency: 'advanced' },
+      { name: 'Node.js (Basic)', proficiency: 'intermediate' },
+      { name: 'Responsive Design', proficiency: 'expert' },
+    ],
+  },
+  {
+    id: 'tools',
+    title: 'TOOLS & DATABASE', // Merged from CV
+    subtitle: '/// INFRASTRUCTURE',
+    badge: 'ESSENTIAL',
+    badgeColor: 'accent', // Changed to match other badges for consistency
+    skills: [
+      { name: 'Git/GitHub', proficiency: 'advanced' },
+      { name: 'SQL (Oracle/MySQL/Postgre)', proficiency: 'advanced' },
+      { name: 'CI/CD Concepts', proficiency: 'intermediate' },
+      { name: 'Agile Scrum', proficiency: 'expert' }, // From "Methodologies"
+      { name: 'Waterfall', proficiency: 'intermediate' },
+      { name: 'SDLC', proficiency: 'expert' },
+      { name: 'STLC', proficiency: 'expert' },
     ],
   },
 ];
@@ -224,7 +185,7 @@ const Skills: React.FC = () => {
     <section
       ref={sectionRef}
       id="skills"
-      className="py-24 px-6 md:px-12 bg-paper relative z-10"
+      className="min-h-screen py-12 px-6 md:px-12 bg-paper relative z-10 flex flex-col justify-center"
       aria-labelledby="skills-heading"
     >
       {/* Section Header */}

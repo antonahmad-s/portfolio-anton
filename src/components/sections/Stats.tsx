@@ -165,7 +165,7 @@ const Stats: React.FC = () => {
     <section
       ref={sectionRef}
       id="stats"
-      className="py-24 px-6 md:px-12 bg-paper relative overflow-hidden"
+      className="min-h-screen py-12 px-6 md:px-12 bg-paper relative overflow-hidden flex flex-col justify-center"
       aria-labelledby="stats-heading"
     >
       {/* Background decoration */}

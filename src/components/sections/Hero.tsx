@@ -175,7 +175,7 @@ const Hero: React.FC = () => {
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[95vh] flex flex-col justify-center px-6 md:px-12 pt-32 overflow-hidden"
+      className="relative h-screen flex flex-col justify-center px-6 md:px-12 pt-20 pb-8 overflow-hidden"
       aria-labelledby="hero-title"
     >
       {/* 3D Background - CYBER TERRAIN */}
@@ -237,7 +237,8 @@ const Hero: React.FC = () => {
                 ref={subRef}
                 className="text-xl md:text-2xl font-mono text-muted leading-relaxed mt-4 max-w-lg"
               >
-                Architecting Reliability for IT Systems.
+                Senior QA Engineer | Test Automation & Web Development
+                Enthusiast
               </h2>
             </InspectorWrapper>
           </div>
