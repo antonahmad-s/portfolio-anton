@@ -33,7 +33,7 @@ const statsData: Stat[] = [
     id: 'experience',
     icon: Calendar,
     label: 'EXPERIENCE_RUNTIME',
-    value: 4,
+    value: 5,
     suffix: '+',
     unit: 'YEARS ACTIVE',
     description:
@@ -44,7 +44,7 @@ const statsData: Stat[] = [
     id: 'domains',
     icon: TrendingUp,
     label: 'DOMAINS_MAPPED',
-    value: 2,
+    value: 3,
     unit: 'CORE INDUSTRIES',
     description:
       'Specialized testing for Financial Services and Information Technology sectors.',
@@ -270,9 +270,9 @@ const Stats: React.FC = () => {
 
           <div className="flex items-center gap-2 font-mono text-xs text-success">
             <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
-            <span className="uppercase tracking-wider">
+            {/* <span className="uppercase tracking-wider">
               ALL_SYSTEMS_OPERATIONAL
-            </span>
+            </span> */}
           </div>
         </div>
       </div>

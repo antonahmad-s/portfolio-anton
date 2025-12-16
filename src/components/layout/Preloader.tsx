@@ -10,10 +10,17 @@ interface PreloaderProps {
 const WORDS = [
   'SELENIUM',
   'GHERKIN',
-  'ASSERT',
+  'PLAYWRIGHT',
+  'BUG',
+  'AI',
   'TIMEOUT',
   'KATALON',
   'POSTMAN',
+  'GEMINI',
+  'ANTIGRAVITY',
+  'CHATGPT',
+  'PERPLEXITY',
+  'CLAUDE',
   'JAVA',
   'ORACLE',
   'DEBUG',
@@ -96,10 +103,10 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       ref={containerRef}
       className="fixed inset-0 z-[100] bg-paper flex items-center justify-center overflow-hidden cursor-wait"
     >
-      <div className="absolute top-4 left-4 font-mono text-xs text-ink/50">
+      {/* <div className="absolute top-4 left-4 font-mono text-xs text-ink/50">
         STATUS: CALIBRATING_BLUEPRINT
-      </div>
-      <div className="absolute bottom-4 right-4 font-mono text-xs text-ink">
+      </div> */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 font-mono text-xs text-ink">
         LOAD_CAPACITY: {progress}%
       </div>
 

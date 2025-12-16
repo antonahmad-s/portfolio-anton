@@ -195,7 +195,7 @@ const Hero: React.FC = () => {
           className="absolute -top-16 left-0 font-mono text-[10px] text-muted tracking-widest uppercase"
           aria-hidden="true"
         >
-          REF: AAS-2024-V2 // QUALITY_ARCHITECT
+          QUALITY_ARCHITECT
         </div>
 
         {/* Hero Title - MIX BLEND MODE for contrast */}
@@ -237,7 +237,7 @@ const Hero: React.FC = () => {
                 ref={subRef}
                 className="text-xl md:text-2xl font-mono text-muted leading-relaxed mt-4 max-w-lg"
               >
-                Architecting Reliability for Financial &amp; IT Systems.
+                Architecting Reliability for IT Systems.
               </h2>
             </InspectorWrapper>
           </div>

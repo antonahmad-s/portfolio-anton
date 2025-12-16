@@ -31,10 +31,10 @@ const About: React.FC = () => {
   ];
 
   const techStack = [
-    { name: 'Next.js 15', featured: true },
-    { name: 'React 19', featured: false },
+    { name: 'Next.js', featured: true },
+    { name: 'React', featured: false },
     { name: 'TypeScript', featured: false },
-    { name: 'Tailwind v4', featured: false },
+    { name: 'Tailwind', featured: false },
     { name: 'Hono', featured: false },
     { name: 'GenAI', featured: false },
   ];
@@ -115,9 +115,9 @@ const About: React.FC = () => {
             System Identity
           </h2>
           <div className="font-mono text-sm mt-2 md:mt-0 flex items-center gap-4">
-            <span className="bg-ink text-paper px-2 py-1 font-bold">
+            {/* <span className="bg-ink text-paper px-2 py-1 font-bold">
               KERNEL_VERSION: 3.0
-            </span>
+            </span> */}
             <span className="text-muted uppercase tracking-wider">
               HYBRID_ARCHITECT
             </span>
@@ -192,7 +192,7 @@ const About: React.FC = () => {
                   ANTON A. SUSILO
                 </div>
                 <div className="font-mono text-[10px] text-muted mt-1 tracking-wide">
-                  ID: QA-ARCH-001
+                  QA-Engineer / AI Web Developer
                 </div>
               </figcaption>
             </figure>
@@ -216,7 +216,7 @@ const About: React.FC = () => {
 
             <p className="font-mono text-sm md:text-base text-muted leading-relaxed mb-8">
               My foundation is built on the rigorous principles of Quality
-              Assurance. For over 4 years, I have architected test strategies
+              Assurance. For over 5 years, I have architected test strategies
               that ensure financial systems don't just "work"—they persist.
             </p>
 
@@ -281,43 +281,94 @@ const About: React.FC = () => {
 
             {/* Tech Stack Display */}
             <div
-              className="border-2 border-ink/20 p-5 bg-white/50 relative glass-panel-sm"
+              className="relative p-6 bg-gradient-to-br from-ink/5 via-white to-accent/10 border border-ink/10 rounded-sm overflow-hidden"
               role="region"
               aria-label="Technology stack"
             >
-              <div className="absolute -top-3 left-4 bg-paper px-2 font-mono text-[10px] text-muted uppercase tracking-widest">
-                STACK_EXPLORATION
+              {/* Animated corner accents */}
+              <div
+                className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-accent"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-ink/30"
+                aria-hidden="true"
+              />
+
+              {/* Decorative grid pattern */}
+              <div
+                className="absolute inset-0 opacity-[0.03]"
+                aria-hidden="true"
+              >
+                <div
+                  className="w-full h-full"
+                  style={{
+                    backgroundImage:
+                      'repeating-linear-gradient(0deg, transparent, transparent 20px, currentColor 20px, currentColor 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, currentColor 20px, currentColor 21px)',
+                  }}
+                />
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-2">
+              {/* Header with icon */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-5 h-5 bg-accent/20 border border-accent/40 flex items-center justify-center">
+                  <Code2 size={12} className="text-accent" />
+                </div>
+                <span className="font-mono text-[10px] text-ink/60 uppercase tracking-[0.2em] font-bold">
+                  Stack_Exploration
+                </span>
+                <div className="flex-1 h-px bg-gradient-to-r from-ink/10 to-transparent" />
+              </div>
+
+              {/* Tech badges with improved styling */}
+              <div className="flex flex-wrap gap-2.5 relative z-10">
                 {techStack.map((tech, index) => (
                   <span
                     key={index}
                     className={`
-                      px-3 py-1.5 
-                      font-mono text-xs font-bold 
-                      transition-all duration-300
+                      group relative px-4 py-2 
+                      font-mono text-xs font-semibold 
+                      transition-all duration-300 cursor-default
+                      rounded-sm
                       ${
                         tech.featured
-                          ? 'bg-ink text-paper shadow-brutal-sm'
-                          : 'border-2 border-ink text-ink hover:bg-accent hover:border-accent hover:-translate-y-1'
+                          ? 'bg-gradient-to-r from-ink via-ink to-ink/90 text-paper shadow-md hover:shadow-lg hover:scale-105'
+                          : 'bg-white/80 backdrop-blur-sm border border-ink/20 text-ink hover:border-accent hover:bg-accent/5 hover:-translate-y-0.5 hover:shadow-sm'
                       }
                     `}
                   >
-                    {tech.name}
+                    {/* Glow effect on hover for featured */}
+                    {tech.featured && (
+                      <div
+                        className="absolute inset-0 bg-accent/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity rounded-sm"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className="relative z-10">{tech.name}</span>
                   </span>
                 ))}
               </div>
-            </div>
 
-            {/* Status Indicator */}
-            <div
-              className="mt-6 flex items-center gap-2 font-mono text-xs text-muted"
-              role="status"
-              aria-live="polite"
-            >
-              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-              <span>LEARNING_MODE: ACTIVE</span>
+              {/* Status Indicator - now inside the card */}
+              <div className="mt-5 pt-4 border-t border-ink/10 flex items-center justify-between">
+                <div
+                  className="flex items-center gap-2.5 font-mono text-[11px] text-ink/60"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div className="relative flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 bg-success rounded-full" />
+                    <div className="absolute w-2.5 h-2.5 bg-success rounded-full animate-ping opacity-75" />
+                  </div>
+                  <span className="tracking-wide">
+                    LEARNING_MODE:{' '}
+                    <span className="text-success font-bold">ACTIVE</span>
+                  </span>
+                </div>
+                <div className="font-mono text-[9px] text-ink/30 uppercase tracking-wider">
+                  v2.0
+                </div>
+              </div>
             </div>
           </article>
         </div>
