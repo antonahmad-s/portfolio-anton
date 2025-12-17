@@ -53,10 +53,16 @@ wrangler pages deploy .next
 2. Click "Create a project"
 3. Connect your GitHub repository
 4. Configure build settings:
+   - **Framework preset**: Next.js
    - **Build command**: `npm run build`
    - **Build output directory**: `.next`
-   - **Node version**: 18 or higher
-5. Set environment variables in dashboard
+   - **Node version**: 20 (or 18+)
+5. Set environment variables in dashboard:
+   - `NEXT_PUBLIC_GA_MEASUREMENT_ID` (optional)
+   - `NEXT_PUBLIC_SITE_URL` = `https://antonahmad.dev`
+6. Click "Save and Deploy"
+
+**Important**: Build configuration is managed in Cloudflare Dashboard for Pages projects, NOT in wrangler.toml.
 
 ---
 

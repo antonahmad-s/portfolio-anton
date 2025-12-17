@@ -1,34 +1,15 @@
 # ========================================
-# 🔒 CLOUDFLARE WRANGLER CONFIGURATION
+# 🔒 CLOUDFLARE PAGES CONFIGURATION
 # ========================================
 # SECURITY WARNING: This file MAY be committed ONLY if it contains NO secrets
 # For sensitive data, use Cloudflare dashboard or .dev.vars (gitignored)
 
 name = "portfolio-anton"
 compatibility_date = "2025-12-17"
-pages_build_output_dir = ".vercel/output/static"
 
 # 🔒 Environment Variables (NON-SENSITIVE ONLY!)
-[vars]
-NEXT_PUBLIC_SITE_URL = "https://antonahmad.dev"
-# ⚠️ DO NOT put secrets here! Use Cloudflare dashboard or `wrangler secret put`
-
-# 🔒 Security: Rate limiting configuration
-# Cloudflare will handle DDoS protection automatically
-# For custom rate limiting, use Cloudflare dashboard
-
-# 🔒 Security: Configure custom headers via _headers file instead
-# See: https://developers.cloudflare.com/pages/platform/headers/
-
-# Build configuration
-[build]
-command = "npm run build"
-
-# Development configuration
-[dev]
-ip = "127.0.0.1"
-port = 8788
-local_protocol = "http"
+# Note: For Pages, set build env vars in Cloudflare Dashboard
+# Dashboard > Workers & Pages > Your Project > Settings > Environment Variables
 
 # ========================================
 # DEPLOYMENT INSTRUCTIONS
