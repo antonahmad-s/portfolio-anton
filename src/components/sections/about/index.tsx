@@ -77,15 +77,20 @@ const SkillsList: React.FC<{ skills: typeof QA_SKILLS }> = ({ skills }) => (
         >
           <motion.div
             className={`
-              w-7 h-7 flex items-center justify-center 
+              flex items-center justify-center 
               border border-ink/20 
               bg-paper shadow-sm
               transition-all duration-300
               ${skill.color}
             `}
+            style={{
+              width: 'var(--space-2xl)',
+              height: 'var(--space-2xl)',
+            }}
             whileHover={{
               borderColor: 'var(--color-accent)',
-              backgroundColor: 'rgba(212, 255, 0, 0.1)',
+              backgroundColor:
+                'color-mix(in oklch, var(--color-accent) 10%, transparent)',
               boxShadow: '2px 2px 0px var(--color-accent)',
             }}
           >
@@ -105,7 +110,7 @@ export const About: React.FC = () => {
   return (
     <section
       id="about"
-      className="h-screen py-8 px-6 md:px-12 bg-paper relative z-10 overflow-hidden flex flex-col justify-center"
+      className="min-h-screen py-8 px-6 md:px-12 pb-16 bg-paper relative z-10 overflow-hidden flex flex-col justify-center"
       aria-labelledby="about-heading"
     >
       <div className="w-full max-w-7xl mx-auto h-full flex flex-col">

@@ -29,7 +29,7 @@ const WORDS = [
   'PIPELINE',
   'SCRUM',
   'JIRA',
-];
+] as const;
 
 const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,6 +51,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
       const words = textContainerRef.current?.children;
       if (words) {
+        // Initial chaotic state
         gsap.set(words, {
           x: () => Math.random() * window.innerWidth - window.innerWidth / 2,
           y: () => Math.random() * window.innerHeight - window.innerHeight / 2,
@@ -59,11 +60,15 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           scale: 0.5,
         });
 
+        // Fade in
         tl.to(words, {
           opacity: 1,
           duration: 0.5,
           stagger: { amount: 0.5, from: 'random' },
-        }).to(
+        });
+
+        // Converge to grid
+        tl.to(
           words,
           {
             x: 0,
@@ -77,6 +82,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           '+=0.2'
         );
 
+        // Progress counter
         tl.to(
           {},
           {
@@ -88,6 +94,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           '<'
         );
 
+        // Color transition
         tl.to(words, {
           color: 'var(--color-preloader-text)',
           duration: 0.1,
@@ -101,12 +108,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] bg-paper flex items-center justify-center overflow-hidden cursor-wait"
+      className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden cursor-wait"
+      style={{ backgroundColor: 'var(--bg-paper)' }}
     >
-      {/* <div className="absolute top-4 left-4 font-mono text-xs text-ink/50">
-        STATUS: CALIBRATING_BLUEPRINT
-      </div> */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 font-mono text-xs text-ink">
+      {/* Progress Counter - Fixed position */}
+      <div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs"
+        style={{ color: 'var(--text-ink)' }}
+      >
         LOAD_CAPACITY: {progress}%
       </div>
 
@@ -118,20 +127,28 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
             'linear-gradient(var(--color-grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px)',
           backgroundSize: '40px 40px',
         }}
-      ></div>
+        aria-hidden="true"
+      />
 
-      <div
-        ref={textContainerRef}
-        className="grid grid-cols-4 md:grid-cols-7 gap-4 md:gap-8 w-full max-w-4xl px-4"
-      >
-        {WORDS.map((word, i) => (
-          <div
-            key={i}
-            className="font-mono text-sm md:text-base font-bold text-gray-400 text-center border border-transparent"
-          >
-            {word}
-          </div>
-        ))}
+      {/* Words Grid - Responsive & Centered */}
+      <div className="w-full max-w-6xl px-6 flex items-center justify-center">
+        <div
+          ref={textContainerRef}
+          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 sm:gap-4 md:gap-6 lg:gap-8 w-full"
+          role="status"
+          aria-live="polite"
+          aria-label="Loading application"
+        >
+          {WORDS.map((word, i) => (
+            <div
+              key={`${word}-${i}`}
+              className="font-mono text-xs sm:text-sm md:text-base font-bold text-center flex items-center justify-center min-h-[2rem]"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              {word}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

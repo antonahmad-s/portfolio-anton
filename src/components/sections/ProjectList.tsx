@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
-import { ExternalLink, Calendar, Tag } from 'lucide-react';
+import { ExternalLink, Tag } from 'lucide-react';
 import { Project } from '@/types';
 import { PROJECTS } from '@/lib/constants';
 
@@ -99,8 +99,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       if (bgXTo.current && bgYTo.current) {
         const xPercent = (x / rect.width - 0.5) * 2;
         const yPercent = (y / rect.height - 0.5) * 2;
-        bgXTo.current(xPercent * -15);
-        bgYTo.current(yPercent * -15);
+        const intensity =
+          parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue(
+              '--parallax-intensity'
+            )
+          ) || -15;
+        bgXTo.current(xPercent * intensity);
+        bgYTo.current(yPercent * intensity);
       }
 
       rafRef.current = null;
@@ -124,9 +130,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   return (
     <article
       ref={containerRef}
-      className="relative w-full min-h-[60vh] border-b border-ink/10 group overflow-hidden flex flex-col justify-between focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-paper transition-all"
+      className="relative w-full border-b border-ink/10 group overflow-hidden flex flex-col justify-between focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-paper transition-all"
+      style={{ minHeight: 'clamp(70vh, 60vh, 80vh)' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
       tabIndex={0}
       role="article"
@@ -134,7 +143,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       onKeyDown={handleKeyDown}
     >
       {/* Main Content Layer */}
-      <div className="relative z-10 w-full h-full flex flex-col justify-between p-6 md:p-12">
+      <div className="relative z-10 w-full h-full flex flex-col justify-between p-4 md:p-12">
         {/* Header */}
         <header className="flex justify-between items-start gap-4">
           <div className="font-mono text-xs bg-ink text-paper px-2 py-1 inline-block uppercase tracking-wider">
@@ -250,12 +259,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       <div
         ref={maskRef}
         className={`
-          absolute w-[350px] h-[350px] rounded-full pointer-events-none z-20
+          absolute rounded-full pointer-events-none z-20
           top-0 left-0 -translate-x-1/2 -translate-y-1/2
           hidden md:block
           transition-opacity duration-300
           ${isHovered ? 'opacity-100' : 'opacity-0'}
         `}
+        style={{
+          width: 'clamp(250px, 30vw, 400px)',
+          height: 'clamp(250px, 30vw, 400px)',
+        }}
         aria-hidden="true"
       >
         <div className="absolute inset-0 w-full h-full rounded-full overflow-hidden border-4 border-accent shadow-glow">
@@ -275,23 +288,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         </div>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Mobile Overlay - Centered */}
       <div
         className={`
-          md:hidden absolute inset-0 z-20 bg-ink/95 flex flex-col justify-center items-center px-6
-          transition-opacity duration-300 pointer-events-none
+          md:hidden absolute inset-0 z-20 flex items-center justify-center pointer-events-none
+          transition-opacity duration-300
           ${isHovered ? 'opacity-100' : 'opacity-0'}
         `}
         aria-hidden="true"
       >
-        <div className="text-center">
-          <h3 className="text-3xl font-bold text-accent mb-4">
-            {project.title}
-          </h3>
-          <span className="inline-flex items-center gap-2 text-paper font-mono text-xs border-2 border-paper px-4 py-2">
-            <ExternalLink size={12} />
-            TAP TO VIEW
-          </span>
+        {/* Circular Image with Button Overlay */}
+        <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-accent shadow-glow">
+          <Image
+            src={project.imageUrl}
+            alt=""
+            width={256}
+            height={256}
+            quality={85}
+            className="object-cover w-full h-full"
+          />
+          {/* Button Overlay - Centered on Image */}
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent">
+            <span className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm">
+              View Details
+            </span>
+          </div>
         </div>
       </div>
     </article>
@@ -328,7 +349,7 @@ const ProjectList: React.FC = () => {
               SELECT * FROM PROJECTS
             </code>
             <code className="font-mono text-xs text-muted">
-              WHERE TYPE IN ('QA', 'DEV')
+              WHERE TYPE IN (&apos;QA&apos;, &apos;DEV&apos;)
             </code>
           </div>
         </header>

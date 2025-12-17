@@ -404,7 +404,7 @@ const Navbar: React.FC<NavbarProps> = ({
             style={{
               backgroundImage:
                 'linear-gradient(var(--text-ink) 1px, transparent 1px), linear-gradient(90deg, var(--text-ink) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
+              backgroundSize: 'var(--grid-pattern-sm) var(--grid-pattern-sm)',
             }}
             aria-hidden="true"
           />

@@ -58,10 +58,17 @@ const Hero: React.FC = () => {
         const chars = split.chars;
 
         if (chars && chars.length > 0) {
+          const animDistanceLg =
+            parseInt(
+              getComputedStyle(document.documentElement).getPropertyValue(
+                '--animation-distance-lg'
+              )
+            ) || 100;
+
           // Initial state
           gsap.set(chars, {
             opacity: 0,
-            y: 100,
+            y: animDistanceLg,
             rotationX: -15,
             transformOrigin: '50% 50%',
           });
@@ -91,10 +98,16 @@ const Hero: React.FC = () => {
             scrub: 0.5,
             onUpdate: (self) => {
               const progress = self.progress;
+              const scrollDistance =
+                parseInt(
+                  getComputedStyle(document.documentElement).getPropertyValue(
+                    '--parallax-scroll-distance'
+                  )
+                ) || 150;
 
               // Use transform3d for GPU acceleration
               gsap.set(nameRef.current, {
-                y: progress * 150,
+                y: progress * scrollDistance,
                 opacity: 1 - progress * 0.6,
                 scale: 1 - progress * 0.05,
                 force3D: true,
@@ -192,7 +205,8 @@ const Hero: React.FC = () => {
       <div className="max-w-7xl w-full mx-auto relative z-10">
         {/* Reference Label */}
         <div
-          className="absolute -top-16 left-0 font-mono text-[10px] text-muted tracking-widest uppercase"
+          className="absolute -top-10 left-0 font-mono text-muted tracking-widest uppercase"
+          style={{ fontSize: 'var(--text-2xs)' }}
           aria-hidden="true"
         >
           QUALITY_ARCHITECT
@@ -204,8 +218,12 @@ const Hero: React.FC = () => {
             <h1
               ref={nameRef}
               id="hero-title"
-              className="text-[12vw] md:text-[10vw] lg:text-[8vw] leading-[0.85] font-serif font-normal uppercase tracking-tighter text-ink text-shadow-subtle mix-blend-difference"
-              style={{ willChange: 'transform' }}
+              className="font-serif font-normal uppercase tracking-tighter text-ink text-shadow-subtle mix-blend-difference"
+              style={{
+                fontSize: 'var(--text-hero)',
+                lineHeight: '0.85',
+                willChange: 'transform',
+              }}
             >
               ANTON
               <br />

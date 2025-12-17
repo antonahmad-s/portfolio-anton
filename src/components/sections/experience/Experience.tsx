@@ -26,7 +26,7 @@ const experienceData: ExperienceItem[] = [
     id: 'edts-2025',
     version: 'v3.0',
     status: 'latest',
-    company: 'PT. ELEVENIA DIGITAL TEKNOLOGI SUKSES - EDTS',
+    company: 'PT. Elevenia Digital Teknologi Sukses - EDTS',
     role: 'Quality Assurance Engineer',
     period: 'JUN 2025 - PRESENT',
     dateRange: '2025-06-01',
@@ -181,7 +181,7 @@ const Experience: React.FC = () => {
         style={{
           backgroundImage:
             'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
+          backgroundSize: 'var(--grid-pattern-md) var(--grid-pattern-md)',
           color: 'var(--color-paper)',
         }}
         aria-hidden="true"
@@ -297,7 +297,7 @@ const Experience: React.FC = () => {
               key={exp.id}
               id={`exp-${exp.id}`}
               className={`
-                w-[85vw] md:w-[70vw] lg:w-[50vw] max-w-[800px] h-[65vh] flex flex-col justify-between
+                w-full flex flex-col justify-between
                 pl-8 pr-12 md:pr-16 py-6 relative group transition-all duration-500
                 ${
                   index === 0
@@ -308,6 +308,11 @@ const Experience: React.FC = () => {
                 focus-within:ring-2 focus-within:ring-accent
                 focus-within:ring-offset-2 focus-within:ring-offset-ink
               `}
+              style={{
+                width:
+                  'clamp(var(--container-3xl), 70vw, var(--container-5xl))',
+                minHeight: '60vh',
+              }}
               // Roving tabindex: only active card is in Tab order.
               tabIndex={index === activeIndex ? 0 : -1}
               role="listitem"
@@ -320,13 +325,14 @@ const Experience: React.FC = () => {
                 <div className="mb-4 shrink-0">
                   <div
                     className={`
-                      inline-block px-2 py-0.5 font-mono text-[10px] md:text-xs font-bold mb-3
+                      inline-block px-2 py-0.5 font-mono font-bold mb-3
                       ${
                         exp.status === 'latest'
                           ? 'bg-accent text-ink'
                           : 'border border-ink/50 text-ink/70'
                       }
                     `}
+                    style={{ fontSize: 'var(--text-2xs)' }}
                   >
                     {exp.version} {'// '}
                     {exp.status.toUpperCase()}
@@ -347,13 +353,17 @@ const Experience: React.FC = () => {
 
                   <time
                     dateTime={exp.dateRange}
-                    className="font-mono text-[10px] md:text-xs text-ink/70 uppercase tracking-wider block"
+                    className="font-mono uppercase tracking-wider block"
+                    style={{ fontSize: 'var(--text-2xs)' }}
                   >
                     {exp.period}
                   </time>
                 </div>
 
-                <div className="border-t border-paper/20 pt-4 mt-auto overflow-y-auto pr-2 custom-scrollbar flex-1">
+                <div
+                  className="border-t border-paper/20 pt-4 mt-auto overflow-y-auto pr-2 custom-scrollbar flex-1"
+                  style={{ maxHeight: '35vh' }}
+                >
                   <ul
                     className="space-y-2 font-mono text-sm text-ink/90"
                     role="list"
@@ -381,7 +391,11 @@ const Experience: React.FC = () => {
           ))}
 
           <div
-            className="w-[15vw] h-[65vh] flex items-center justify-center border-l border-paper/30"
+            className="flex items-center justify-center border-l border-paper/30"
+            style={{
+              width: '15vw',
+              minHeight: '60vh',
+            }}
             role="presentation"
           >
             <div className="rotate-90 font-mono text-xs text-ink/50 tracking-widest uppercase whitespace-nowrap">

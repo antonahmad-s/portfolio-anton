@@ -207,8 +207,13 @@ const Skills: React.FC = () => {
         start: 'top 75%',
         once: true,
         onEnter: () => {
+          const animDistance = parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue(
+              '--animation-distance-md'
+            )
+          );
           gsap.from('.skill-box', {
-            y: 60,
+            y: animDistance,
             opacity: 0,
             duration: 0.8,
             stagger: 0.15,
@@ -251,11 +256,11 @@ const Skills: React.FC = () => {
   const getProficiencyColor = (level: Skill['proficiency']) => {
     switch (level) {
       case 'expert':
-        return 'bg-accent';
+        return 'bg-[color:var(--color-proficiency-expert)]';
       case 'advanced':
-        return 'bg-amber-500';
+        return 'bg-[color:var(--color-proficiency-advanced)]';
       case 'intermediate':
-        return 'bg-gray-400';
+        return 'bg-[color:var(--color-proficiency-intermediate)]';
     }
   };
 
@@ -286,7 +291,7 @@ const Skills: React.FC = () => {
     <section
       ref={sectionRef}
       id="skills"
-      className="h-screen py-6 px-6 md:px-12 bg-paper relative z-10 flex flex-col justify-start"
+      className="min-h-screen py-6 px-6 md:px-12 pb-12 bg-paper relative z-10 flex flex-col justify-start"
       aria-labelledby="skills-heading"
     >
       {/* Section Header - Left Aligned */}
@@ -299,17 +304,23 @@ const Skills: React.FC = () => {
           <br />
           <span className="text-accent">Inventory</span>
         </h2>
-        <div className="w-full max-w-2xl h-[2px] bg-gradient-to-r from-accent via-accent/50 to-transparent" />
+        <div
+          className="w-full bg-gradient-to-r from-accent via-accent/50 to-transparent"
+          style={{
+            maxWidth: 'var(--container-2xl)',
+            height: 'var(--space-3xs)',
+          }}
+        />
       </div>
 
       {/* Skills Grid - Fixed Click Events */}
       <div className="flex-1 overflow-hidden">
-        <div className="h-full overflow-x-auto overflow-y-hidden pb-4 scrollbar-thin scrollbar-thumb-accent/20 scrollbar-track-transparent">
-          <div className="flex md:grid md:grid-cols-3 gap-6 h-full items-stretch min-w-max md:min-w-0">
+        <div className="h-full overflow-y-auto pb-4 scrollbar-thin scrollbar-thumb-accent/20 scrollbar-track-transparent">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             {skillsData.map((category) => (
               <article
                 key={category.id}
-                className="skill-box glass-panel p-6 relative group hover:shadow-glow transition-all duration-500 hover:-translate-y-1 flex-shrink-0 w-[85vw] md:w-auto md:flex-shrink flex flex-col"
+                className="skill-box glass-panel p-6 relative group hover:shadow-glow transition-all duration-500 hover:-translate-y-1 flex flex-col w-full"
                 aria-labelledby={`category-${category.id}`}
               >
                 {/* Badge */}
@@ -405,10 +416,16 @@ const Skills: React.FC = () => {
                               {/* Expanded Content */}
                               {skill.description && isActive && (
                                 <div className="mt-1.5 pt-1.5 border-t border-ink/10 w-full text-left pointer-events-none">
-                                  <span className="block text-[9px] font-bold text-accent mb-0.5 uppercase tracking-wider">
+                                  <span
+                                    className="block font-bold text-accent mb-0.5 uppercase tracking-wider"
+                                    style={{ fontSize: 'var(--text-2xs)' }}
+                                  >
                                     {getProficiencyLabel(skill.proficiency)}
                                   </span>
-                                  <p className="text-[10px] text-muted font-normal leading-relaxed">
+                                  <p
+                                    className="text-muted font-normal leading-relaxed"
+                                    style={{ fontSize: 'var(--text-2xs)' }}
+                                  >
                                     {skill.description}
                                   </p>
                                 </div>
@@ -423,7 +440,10 @@ const Skills: React.FC = () => {
 
                 {/* Category Summary */}
                 <div className="mt-4 pt-4 border-t border-ink/10 flex items-center justify-between shrink-0">
-                  <span className="font-mono text-[10px] text-muted uppercase tracking-wider">
+                  <span
+                    className="font-mono text-muted uppercase tracking-wider"
+                    style={{ fontSize: 'var(--text-2xs)' }}
+                  >
                     {category.skills.length} PROTOCOLS
                   </span>
                   <div className="flex items-center gap-1.5">

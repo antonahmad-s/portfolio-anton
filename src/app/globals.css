@@ -65,6 +65,95 @@
   --font-mono: 'Roboto Mono', 'JetBrains Mono', monospace;
   --font-sans: 'Inter', system-ui, sans-serif;
 
+  /* ========================================
+     SPACING SCALE - T-SHIRT SIZING
+     Mobile-first responsive spacing system
+     ======================================== */
+  --space-3xs: 0.125rem; /* 2px - hairline borders */
+  --space-2xs: 0.25rem; /* 4px - tight spacing */
+  --space-xs: 0.5rem; /* 8px - small gaps */
+  --space-sm: 0.75rem; /* 12px - compact spacing */
+  --space-md: 1rem; /* 16px - base spacing */
+  --space-lg: 1.5rem; /* 24px - comfortable spacing */
+  --space-xl: 2rem; /* 32px - section spacing */
+  --space-2xl: 3rem; /* 48px - large gaps */
+  --space-3xl: 4rem; /* 64px - section dividers */
+  --space-4xl: 6rem; /* 96px - major sections */
+  --space-5xl: 8rem; /* 128px - hero spacing */
+
+  /* ========================================
+     FLUID TYPOGRAPHY - MOBILE-FIRST
+     Uses clamp() for smooth scaling across viewports
+     Formula: clamp(min, preferred, max)
+     ======================================== */
+  --text-2xs: clamp(0.625rem, 0.5rem + 0.3125vw, 0.75rem); /* 10-12px */
+  --text-xs: clamp(0.75rem, 0.625rem + 0.3125vw, 0.875rem); /* 12-14px */
+  --text-sm: clamp(0.875rem, 0.75rem + 0.3125vw, 1rem); /* 14-16px */
+  --text-base: clamp(1rem, 0.875rem + 0.3125vw, 1.125rem); /* 16-18px */
+  --text-lg: clamp(1.125rem, 1rem + 0.3125vw, 1.25rem); /* 18-20px */
+  --text-xl: clamp(1.25rem, 1.125rem + 0.3125vw, 1.5rem); /* 20-24px */
+  --text-2xl: clamp(1.5rem, 1.25rem + 0.625vw, 2rem); /* 24-32px */
+  --text-3xl: clamp(1.875rem, 1.5rem + 0.9375vw, 2.5rem); /* 30-40px */
+  --text-4xl: clamp(2.25rem, 1.875rem + 0.9375vw, 3rem); /* 36-48px */
+  --text-5xl: clamp(3rem, 2.5rem + 1.25vw, 4rem); /* 48-64px */
+  --text-6xl: clamp(3.75rem, 3rem + 1.875vw, 5rem); /* 60-80px */
+  --text-hero: clamp(3.5rem, 2.5rem + 2.5vw, 6rem); /* 56-96px - Hero titles */
+
+  /* ========================================
+     RESPONSIVE CONTAINER WIDTHS
+     Used for max-width constraints
+     ======================================== */
+  --container-xs: 20rem; /* 320px */
+  --container-sm: 24rem; /* 384px */
+  --container-md: 28rem; /* 448px */
+  --container-lg: 32rem; /* 512px */
+  --container-xl: 36rem; /* 576px */
+  --container-2xl: 42rem; /* 672px */
+  --container-3xl: 48rem; /* 768px */
+  --container-4xl: 56rem; /* 896px */
+  --container-5xl: 64rem; /* 1024px */
+  --container-6xl: 72rem; /* 1152px */
+  --container-7xl: 80rem; /* 1280px */
+
+  /* ========================================
+     SHADOW SYSTEM - ELEVATION SCALE
+     Replaces hardcoded rgba shadow values
+     ======================================== */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-brutal-md: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
+  --shadow-brutal-lg: 8px 8px 0px 0px rgba(0, 0, 0, 0.3);
+
+  /* ========================================
+     PROFICIENCY LEVEL COLORS (Skills Section)
+     Semantic naming for skill levels
+     ======================================== */
+  --color-proficiency-expert: var(--color-accent);
+  --color-proficiency-advanced: #f59e0b; /* Amber 500 */
+  --color-proficiency-intermediate: #9ca3af; /* Gray 400 */
+
+  /* ========================================
+     GRID PATTERN SIZES
+     For background decorative patterns
+     ======================================== */
+  --grid-pattern-sm: 40px;
+  --grid-pattern-md: 60px;
+  --grid-pattern-lg: 80px;
+
+  /* ========================================
+     ANIMATION CONSTANTS
+     Used in GSAP animations to avoid magic numbers
+     ======================================== */
+  --parallax-intensity: -15;
+  --parallax-scroll-distance: 150;
+  --animation-distance-sm: 30;
+  --animation-distance-md: 60;
+  --animation-distance-lg: 100;
+
   /* Shadows */
   --shadow-brutal: 8px 8px 0px 0px currentColor;
   --shadow-brutal-sm: 4px 4px 0px 0px currentColor;

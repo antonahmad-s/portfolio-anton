@@ -11,12 +11,13 @@ export const AboutPhoto: React.FC = () => {
   >('loading');
 
   return (
-    <article className="flex flex-col gap-3 pb-8 mb-8">
-      {/* 👆 pb-8 + mb-8 = 64px total clearance untuk button */}
+    <article className="flex flex-col gap-3 pb-12 mb-4">
+      {/* 👆 Increased pb to ensure Download CV button is fully visible */}
 
       <div
-        className="font-mono text-[10px] border inline-block px-2 py-1 w-max uppercase tracking-wider"
+        className="font-mono border inline-block px-2 py-1 w-max uppercase tracking-wider"
         style={{
+          fontSize: 'var(--text-2xs)',
           color: 'var(--text-ink)',
           borderColor: 'var(--text-ink)',
         }}
@@ -26,10 +27,11 @@ export const AboutPhoto: React.FC = () => {
       </div>
 
       <figure
-        className="relative overflow-hidden group w-full max-w-[320px] h-[400px] border-2"
+        className="relative overflow-hidden group w-full border-2 aspect-[4/5] sm:max-w-xs sm:aspect-[4/5] md:h-96 md:aspect-auto"
         style={{
           borderColor: 'var(--text-ink)',
           backgroundColor: 'var(--color-grid)',
+          maxWidth: 'var(--container-xs)',
         }}
       >
         <Image
@@ -60,8 +62,12 @@ export const AboutPhoto: React.FC = () => {
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="w-12 h-12 border-4 border-t-transparent rounded-full"
-                style={{ borderColor: 'var(--text-ink)' }}
+                className="border-4 border-t-transparent rounded-full"
+                style={{
+                  borderColor: 'var(--text-ink)',
+                  width: 'var(--space-3xl)',
+                  height: 'var(--space-3xl)',
+                }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               />
@@ -93,13 +99,25 @@ export const AboutPhoto: React.FC = () => {
 
         {/* Corner Markers */}
         <div
-          className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 pointer-events-none"
-          style={{ borderColor: 'var(--text-ink)' }}
+          className="absolute border-t-2 border-l-2 pointer-events-none"
+          style={{
+            borderColor: 'var(--text-ink)',
+            top: 'var(--space-xs)',
+            left: 'var(--space-xs)',
+            width: 'var(--space-md)',
+            height: 'var(--space-md)',
+          }}
           aria-hidden="true"
         />
         <div
-          className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 pointer-events-none"
-          style={{ borderColor: 'var(--text-ink)' }}
+          className="absolute border-b-2 border-r-2 pointer-events-none"
+          style={{
+            borderColor: 'var(--text-ink)',
+            bottom: 'var(--space-xs)',
+            right: 'var(--space-xs)',
+            width: 'var(--space-md)',
+            height: 'var(--space-md)',
+          }}
           aria-hidden="true"
         />
 
@@ -109,7 +127,7 @@ export const AboutPhoto: React.FC = () => {
           style={{
             backgroundColor: 'var(--bg-paper)',
             borderColor: 'var(--text-ink)',
-            boxShadow: '4px 4px 0px rgba(0,0,0,0.3)',
+            boxShadow: 'var(--shadow-brutal-md)',
           }}
           id="photo-caption"
         >
@@ -120,8 +138,11 @@ export const AboutPhoto: React.FC = () => {
             ANTON A. SUSILO
           </div>
           <div
-            className="font-mono text-[9px] mt-1.5 tracking-wide text-center"
-            style={{ color: 'var(--text-muted)' }}
+            className="font-mono mt-1.5 tracking-wide text-center"
+            style={{
+              fontSize: 'var(--text-2xs)',
+              color: 'var(--text-muted)',
+            }}
           >
             QA-Engineer / AI Web Developer
           </div>
@@ -129,7 +150,7 @@ export const AboutPhoto: React.FC = () => {
       </figure>
 
       {/* Download CV Button - WITH WRAPPER for overflow protection */}
-      <div className="w-full max-w-[320px]">
+      <div className="w-full" style={{ maxWidth: 'var(--container-xs)' }}>
         {/* 👆 Wrapper prevents parent overflow clipping */}
         <motion.a
           href="/assets/cv/CV_Anton.pdf"
