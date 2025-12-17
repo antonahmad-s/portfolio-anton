@@ -53,9 +53,9 @@ wrangler pages deploy .next
 2. Click "Create a project"
 3. Connect your GitHub repository
 4. Configure build settings:
-   - **Framework preset**: Next.js
+   - **Framework preset**: Next.js (Static HTML Export)
    - **Build command**: `npm run build`
-   - **Build output directory**: `.next`
+   - **Build output directory**: `out`
    - **Node version**: 20 (or 18+)
 5. Set environment variables in dashboard:
    - `NEXT_PUBLIC_GA_MEASUREMENT_ID` (optional)
@@ -270,6 +270,6 @@ jobs:
 
 ---
 
-**Deployment Date**: ****\_****  
+**Deployment Date**: \***\*\_\*\***  
 **Deployed By**: Anton Ahmad Susilo  
 **Production URL**: https://antonahmad.dev
