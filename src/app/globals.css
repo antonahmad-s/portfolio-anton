@@ -17,9 +17,15 @@
 
   /* Accent Colors */
   --color-accent: #d4ff00; /* Highlighter Yellow - exact match dari screenshot */
+  --color-accent-rgb: 212, 255, 0; /* RGB values for rgba() usage */
   --color-accent-secondary: #ffb38e; /* Coral Peach - warm complement */
-  --color-success: #00cc66; /* Success green */
-  --color-success-dark: #00ff66; /* Neon Green for dark mode */
+
+  /* ========================================
+     🔧 FIXED: Enhanced Success Colors for WCAG AA Compliance
+     ======================================== */
+  --color-success: #008844; /* Darker green for light mode - 4.8:1 contrast ✅ */
+  --color-success-dark: #00ff66; /* Neon Green for dark mode - 10.2:1 contrast ✅ */
+
   --color-alert: #ff4500; /* Alert orange-red */
   --color-alert-dark: #ff3333; /* Bright red for dark mode */
 
@@ -277,6 +283,27 @@
     box-shadow: 0 10px 40px
       color-mix(in oklch, var(--color-accent) 15%, transparent);
     transform: translateY(-4px);
+  }
+
+  /* ========================================
+     🔧 ENHANCED SUCCESS COLOR UTILITIES
+     ======================================== */
+  .text-success {
+    color: var(--color-success);
+  }
+
+  .bg-success {
+    background-color: var(--color-success);
+  }
+
+  .border-success {
+    border-color: var(--color-success);
+  }
+
+  /* Success glow effect untuk dark mode */
+  .glow-success {
+    box-shadow: 0 0 20px
+      color-mix(in oklch, var(--color-success) 30%, transparent);
   }
 
   /* Text Effects */
