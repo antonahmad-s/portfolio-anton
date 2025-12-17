@@ -1,0 +1,83 @@
+# ========================================
+
+# 🔒 CLOUDFLARE PAGES HEADERS
+
+# ========================================
+
+# Security headers for Cloudflare Pages deployment
+
+# https://developers.cloudflare.com/pages/platform/headers/
+
+/\*
+
+# 🔒 Content Security Policy
+
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content; object-src 'none'
+
+# 🔒 Strict Transport Security (HSTS)
+
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# 🔒 Prevent clickjacking
+
+X-Frame-Options: DENY
+
+# 🔒 Prevent MIME sniffing
+
+X-Content-Type-Options: nosniff
+
+# 🔒 XSS Protection
+
+X-XSS-Protection: 1; mode=block
+
+# 🔒 Referrer Policy
+
+Referrer-Policy: strict-origin-when-cross-origin
+
+# 🔒 Permissions Policy
+
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+
+# 🔒 Cross-Origin Policies
+
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Resource-Policy: same-origin
+
+# Performance & Caching
+
+Cache-Control: public, max-age=31536000, immutable
+
+# Static assets - aggressive caching
+
+/\_next/static/\*
+Cache-Control: public, max-age=31536000, immutable
+
+/assets/\*
+Cache-Control: public, max-age=31536000, immutable
+
+# Fonts - aggressive caching
+
+/fonts/\*
+Cache-Control: public, max-age=31536000, immutable
+
+# Images - moderate caching
+
+/images/\*
+Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# HTML pages - no caching (for fresh content)
+
+/\*.html
+Cache-Control: public, max-age=0, must-revalidate
+
+# Service Worker - no caching
+
+/sw.js
+Cache-Control: public, max-age=0, must-revalidate
+
+# API routes (jika ada) - no caching
+
+/api/\*
+Cache-Control: no-store, no-cache, must-revalidate
+X-Robots-Tag: noindex

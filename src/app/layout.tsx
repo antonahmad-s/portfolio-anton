@@ -44,6 +44,7 @@ const inter = Inter({
    ======================================== */
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://antonahmad.dev'),
   title: {
     default: 'Anton Ahmad Susilo | QA Architect & AI Web Developer',
     template: '%s | Anton Ahmad Susilo',

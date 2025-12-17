@@ -6,12 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "npm run build && wrangler pages deploy .next",
+    "preview": "wrangler pages dev .next",
+    "cf:login": "wrangler login"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@studio-freight/lenis": "^1.0.42",
     "framer-motion": "^11.18.2",
     "gsap": "^3.13.0",
     "lucide-react": "^0.454.0",
@@ -31,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "^16.0.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.55.0"
   }
 }

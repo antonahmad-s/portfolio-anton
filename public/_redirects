@@ -1,0 +1,24 @@
+# Redirects untuk Cloudflare Pages
+
+# https://developers.cloudflare.com/pages/platform/redirects/
+
+# 🔒 Force HTTPS
+
+http://:splat https://:splat 301!
+
+# 🔒 Redirect www to non-www (atau sebaliknya)
+
+https://www.antonahmad.dev/* https://antonahmad.dev/:splat 301!
+
+# Redirect old paths (contoh)
+
+# /old-path /new-path 301
+
+# /blog/old-post /blog/new-post 301
+
+# 🔒 Block access to sensitive files
+
+/.env* /404 404
+/.git* /404 404
+/wrangler.toml /404 404
+/_.config._ /404 404

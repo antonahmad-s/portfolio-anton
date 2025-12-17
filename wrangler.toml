@@ -1,0 +1,53 @@
+# ========================================
+# 🔒 CLOUDFLARE WRANGLER CONFIGURATION
+# ========================================
+# SECURITY WARNING: This file MAY be committed ONLY if it contains NO secrets
+# For sensitive data, use Cloudflare dashboard or .dev.vars (gitignored)
+
+name = "portfolio-anton"
+compatibility_date = "2025-12-17"
+pages_build_output_dir = ".vercel/output/static"
+
+# 🔒 Environment Variables (NON-SENSITIVE ONLY!)
+[vars]
+NEXT_PUBLIC_SITE_URL = "https://antonahmad.dev"
+# ⚠️ DO NOT put secrets here! Use Cloudflare dashboard or `wrangler secret put`
+
+# 🔒 Security: Rate limiting configuration
+# Cloudflare will handle DDoS protection automatically
+# For custom rate limiting, use Cloudflare dashboard
+
+# 🔒 Security: Configure custom headers via _headers file instead
+# See: https://developers.cloudflare.com/pages/platform/headers/
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Development configuration
+[dev]
+ip = "127.0.0.1"
+port = 8788
+local_protocol = "http"
+
+# ========================================
+# DEPLOYMENT INSTRUCTIONS
+# ========================================
+# 1. Login to Cloudflare:
+#    wrangler login
+#
+# 2. Deploy:
+#    npm run build
+#    wrangler pages deploy
+#
+# 3. Set secrets (for GA, if needed):
+#    wrangler secret put NEXT_PUBLIC_GA_MEASUREMENT_ID
+#
+# 4. Configure custom domain in Cloudflare dashboard
+#
+# 5. Enable security features:
+#    - Bot Fight Mode
+#    - Always Use HTTPS
+#    - Auto Minify (JS, CSS, HTML)
+#    - Brotli compression
+#    - Security Level: Medium/High

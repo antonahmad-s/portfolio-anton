@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { env } from '@/lib/env';
 
 /**
  * Analytics Component
@@ -10,6 +11,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
  * Implements consent-aware tracking (GDPR compliant)
  *
  * @security Only loads in production environment
+ * @security Environment variables validated and sanitized
  */
 export function Analytics() {
   const pathname = usePathname();
@@ -18,17 +20,21 @@ export function Analytics() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+    // 🔒 Use validated environment variable
+    const GA_MEASUREMENT_ID = env.GA_MEASUREMENT_ID;
 
     if (!GA_MEASUREMENT_ID) {
       return;
     }
 
-    // Track page view
+    // Track page view with sanitized URL
     const url = pathname + (searchParams?.toString() ? `?${searchParams}` : '');
 
+    // 🔒 Sanitize URL to prevent injection
+    const sanitizedUrl = url.replace(/[<>"']/g, '');
+
     window.gtag?.('config', GA_MEASUREMENT_ID, {
-      page_path: url,
+      page_path: sanitizedUrl,
       anonymize_ip: true, // GDPR compliance
       cookie_flags: 'SameSite=None;Secure',
     });
@@ -36,12 +42,23 @@ export function Analytics() {
 
   // Add Google Analytics script
   useEffect(() => {
-    const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+    // 🔒 Use validated environment variable
+    const GA_MEASUREMENT_ID = env.GA_MEASUREMENT_ID;
     if (!GA_MEASUREMENT_ID) return;
 
+    // 🔒 Only load in production
+    if (!env.IS_PRODUCTION) {
+      console.log('📊 Analytics disabled in development');
+      return;
+    }
+
     const script = document.createElement('script');
+    // 🔒 GA_MEASUREMENT_ID already validated by env.ts
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
     script.async = true;
+    script.defer = true; // Additional performance optimization
+
+    // 🔒 Add integrity check if using Subresource Integrity
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
@@ -52,7 +69,10 @@ export function Analytics() {
     window.gtag('config', GA_MEASUREMENT_ID);
 
     return () => {
-      document.head.removeChild(script);
+      // Cleanup script on unmount
+      if (script.parentNode) {
+        document.head.removeChild(script);
+      }
     };
   }, []);
 
