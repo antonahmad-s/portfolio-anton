@@ -11,15 +11,15 @@ export const AboutPhoto: React.FC = () => {
   >('loading');
 
   return (
-    <article className="flex flex-col gap-3">
+    <article className="flex flex-col gap-3 pb-4">
       <div
-        className="font-mono text-[10px] text-ink border border-ink inline-block px-2 py-1 w-max uppercase tracking-wider"
+        className="font-mono text-[10px] text-ink dark:text-paper border border-ink dark:border-paper inline-block px-2 py-1 w-max uppercase tracking-wider"
         aria-label="Section label"
       >
         PERSONNEL_ID
       </div>
 
-      <figure className="relative overflow-hidden border-2 border-ink group bg-gray-100 w-full max-w-[320px] h-[400px]">
+      <figure className="relative overflow-hidden border-2 border-ink dark:border-paper group bg-gray-100 dark:bg-gray-800 w-full max-w-[320px] h-[400px]">
         <Image
           src="/assets/photos/Photo_Anton.webp"
           alt="Portrait of Anton Ahmad Susilo, Quality Assurance Architect"
@@ -41,13 +41,13 @@ export const AboutPhoto: React.FC = () => {
         <AnimatePresence>
           {imageStatus === 'loading' && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center bg-gray-200"
+              className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
               <motion.div
-                className="w-12 h-12 border-4 border-ink border-t-transparent rounded-full"
+                className="w-12 h-12 border-4 border-ink dark:border-paper border-t-transparent rounded-full"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               />
@@ -59,7 +59,7 @@ export const AboutPhoto: React.FC = () => {
         <AnimatePresence>
           {imageStatus === 'error' && (
             <motion.div
-              className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 text-ink"
+              className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 text-ink dark:text-paper"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               role="alert"
@@ -75,37 +75,37 @@ export const AboutPhoto: React.FC = () => {
 
         {/* Corner Markers */}
         <div
-          className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-ink pointer-events-none"
+          className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-ink dark:border-paper pointer-events-none"
           aria-hidden="true"
         />
         <div
-          className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink pointer-events-none"
+          className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink dark:border-paper pointer-events-none"
           aria-hidden="true"
         />
 
-        {/* ID Badge - Wider with nowrap */}
+        {/* ID Badge - Dark mode fix with contrasting background */}
         <figcaption
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-paper/95 backdrop-blur-sm px-6 py-2.5 border-2 border-ink shadow-[4px_4px_0px_rgba(0,0,0,0.8)] whitespace-nowrap"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-paper dark:bg-ink/95 backdrop-blur-sm px-6 py-2.5 border-2 border-ink dark:border-paper shadow-[4px_4px_0px_rgba(0,0,0,0.8)] dark:shadow-[4px_4px_0px_rgba(255,255,255,0.3)] whitespace-nowrap"
           id="photo-caption"
         >
-          <div className="font-bold font-serif text-base leading-none text-ink text-center">
+          <div className="font-bold font-serif text-base leading-none text-ink dark:text-paper text-center">
             ANTON A. SUSILO
           </div>
-          <div className="font-mono text-[9px] text-muted mt-1.5 tracking-wide text-center">
+          <div className="font-mono text-[9px] text-muted dark:text-gray-400 mt-1.5 tracking-wide text-center">
             QA-Engineer / AI Web Developer
           </div>
         </figcaption>
       </figure>
 
-      {/* Download CV Button - Full width matching photo */}
+      {/* Download CV Button - Dark mode adaptive with safe spacing */}
       <motion.a
         href="/assets/cv/CV_Anton.pdf"
         download="CV_Anton_Ahmad_Susilo.pdf"
-        className="w-full max-w-[320px] flex items-center justify-center gap-2 px-4 py-2.5 bg-ink text-paper font-mono text-xs font-bold uppercase tracking-wider border-2 border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+        className="w-full max-w-[320px] flex items-center justify-center gap-2 px-4 py-2.5 bg-ink dark:bg-paper text-paper dark:text-ink font-mono text-xs font-bold uppercase tracking-wider border-2 border-ink dark:border-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent dark:focus-visible:ring-yellow-400 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900"
         whileHover={{
-          backgroundColor: 'var(--color-accent)',
-          color: 'var(--color-ink-light)',
-          boxShadow: '3px 3px 0px var(--color-ink-light)',
+          backgroundColor: 'var(--color-accent, #10b981)',
+          color: 'var(--color-ink-light, #1f2937)',
+          boxShadow: '3px 3px 0px currentColor',
           y: -2,
           x: -2,
         }}

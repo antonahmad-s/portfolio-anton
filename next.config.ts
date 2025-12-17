@@ -91,15 +91,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
-  // Security headers
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: securityHeaders,
-      },
-    ];
-  },
+  // 🔒 NOTE: Security headers for static export are configured in public/_headers
+  // Headers in next.config.ts don't work with output: 'export'
+  // See: https://nextjs.org/docs/messages/export-no-custom-routes
 
   // Compiler optimizations
   compiler: {
