@@ -75,13 +75,13 @@ export default function ContactFooter() {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block font-mono text-xs text-accent bg-ink px-2 py-1 mb-4">
-              KERNEL_INFO
+              EDUCATION_INFO
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold mb-2 text-ink">
               Jakarta State University
             </h2>
             <p className="font-mono text-muted">
-              Informatics Engineering • 2019-2023
+              Informatics and Computer Engineering • 2017-2021
             </p>
           </motion.div>
 

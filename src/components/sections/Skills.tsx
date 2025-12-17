@@ -49,19 +49,19 @@ const skillsData: SkillCategory[] = [
       },
       {
         name: 'Selenium',
-        proficiency: 'expert',
+        proficiency: 'advanced',
         description:
           'Advanced WebDriver automation with Page Object Model pattern',
       },
       {
         name: 'Katalon Studio',
-        proficiency: 'expert',
+        proficiency: 'advanced',
         description:
           'Full-stack test automation framework with custom scripting',
       },
       {
         name: 'Playwright',
-        proficiency: 'advanced',
+        proficiency: 'intermediate',
         description: 'Modern E2E testing with cross-browser support',
       },
       {
@@ -88,7 +88,7 @@ const skillsData: SkillCategory[] = [
       },
       {
         name: 'Bugzilla',
-        proficiency: 'intermediate',
+        proficiency: 'expert',
         description: 'Bug tracking and issue management',
       },
     ],
@@ -102,38 +102,38 @@ const skillsData: SkillCategory[] = [
     skills: [
       {
         name: 'HTML5',
-        proficiency: 'expert',
+        proficiency: 'advanced',
         description: 'Semantic markup and accessibility best practices',
       },
       {
         name: 'CSS3',
-        proficiency: 'expert',
+        proficiency: 'advanced',
         description: 'Flexbox, Grid, animations, and modern CSS features',
       },
       {
         name: 'JavaScript (ES6+)',
-        proficiency: 'advanced',
+        proficiency: 'intermediate',
         description:
           'Modern JS with async/await, modules, and functional programming',
       },
       {
         name: 'React.js',
-        proficiency: 'advanced',
+        proficiency: 'intermediate',
         description: 'Component architecture with hooks and context API',
       },
       {
         name: 'Next.js',
-        proficiency: 'advanced',
+        proficiency: 'intermediate',
         description: 'Server-side rendering and static site generation',
       },
       {
-        name: 'Node.js (Basic)',
+        name: 'Node.js',
         proficiency: 'intermediate',
         description: 'Backend API development and server scripting',
       },
       {
         name: 'Responsive Design',
-        proficiency: 'expert',
+        proficiency: 'advanced',
         description: 'Mobile-first design with cross-device compatibility',
       },
     ],
@@ -168,7 +168,7 @@ const skillsData: SkillCategory[] = [
       },
       {
         name: 'Waterfall',
-        proficiency: 'intermediate',
+        proficiency: 'expert',
         description: 'Traditional sequential project management',
       },
       {
@@ -298,7 +298,7 @@ const Skills: React.FC = () => {
       <div className="w-full mb-6">
         <h2
           id="skills-heading"
-          className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold uppercase mb-2 text-ink"
+          className="text-2xl md:text-4xl lg:text-5xl font-serif font-bold uppercase mb-2 text-ink"
         >
           Instrumentation
           <br />

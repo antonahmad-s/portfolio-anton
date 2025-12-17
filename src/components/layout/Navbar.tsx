@@ -192,7 +192,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
             <span className="font-mono text-xs font-bold tracking-widest text-ink">
-              ANTON.SYS
+              ANTON.A.SUSILO
             </span>
           </div>
           {/* Static clock placeholder to prevent hydration mismatch */}
@@ -246,7 +246,7 @@ const Navbar: React.FC<NavbarProps> = ({
             aria-hidden="true"
           />
           <span className="font-mono text-xs font-bold tracking-widest text-ink group-hover:text-accent transition-colors">
-            ANTON.SYS
+            ANTON.A.SUSILO
           </span>
         </a>
 
@@ -534,7 +534,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <span className="font-mono text-[9px] uppercase tracking-widest panel-inverted-muted">
                     Projects Delivered
                   </span>
-                  <span className="text-2xl font-serif font-bold">15+</span>
+                  <span className="text-2xl font-serif font-bold">25+</span>
                 </div>
 
                 <div className="flex justify-between items-baseline">
