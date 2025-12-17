@@ -11,6 +11,7 @@ import {
   Check,
   MessageCircle,
 } from 'lucide-react';
+import { CONTACT } from '@/lib/constants';
 
 /**
  * Contact Footer Component
@@ -23,8 +24,8 @@ export default function ContactFooter() {
   const [copied, setCopied] = useState(false);
 
   // 🔒 Email obfuscation (prevents bot scraping)
-  // Generate your own: echo -n "your.email@example.com" | base64
-  const email = atob('YW50b25haG1hZEBleGFtcGxlLmNvbQ=='); // Replace with your Base64 encoded email
+  // Base64 encoded: antonahmadsusilo@gmail.com
+  const email = atob('YW50b25haG1hZHN1c2lsb0BnbWFpbC5jb20=');
 
   const handleCopyEmail = async () => {
     try {
@@ -40,19 +41,19 @@ export default function ContactFooter() {
     {
       name: 'GitHub',
       icon: Github,
-      href: 'https://github.com/antonahmad-s',
+      href: CONTACT.github,
       label: 'View GitHub Profile',
     },
     {
       name: 'LinkedIn',
       icon: Linkedin,
-      href: 'https://linkedin.com/in/antonahmad',
+      href: CONTACT.linkedin,
       label: 'Connect on LinkedIn',
     },
     {
       name: 'WhatsApp',
       icon: MessageCircle,
-      href: 'https://wa.me/6281296064974', // Replace with actual number
+      href: CONTACT.whatsapp,
       label: 'Chat on WhatsApp',
     },
   ];

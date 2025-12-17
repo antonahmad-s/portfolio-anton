@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Mail, Github, Linkedin } from 'lucide-react';
 import { ThemeMode } from '@/types';
-import { MENU_ITEMS } from '@/lib/constants';
+import { MENU_ITEMS, CONTACT } from '@/lib/constants';
 import { useSystemClock } from '@/hooks/useSystemClock';
 
 /* ========================================
@@ -179,7 +179,7 @@ const Navbar: React.FC<NavbarProps> = ({
   }, [isOpen, mounted]);
 
   // Obfuscated email for security - Only after hydration
-  const email = isHydrated ? atob('YW50b25haG1hZEBleGFtcGxlLmNvbQ==') : '';
+  const email = isHydrated ? atob('YW50b25haG1hZHN1c2lsb0BnbWFpbC5jb20=') : '';
 
   /* ========================================
      SSR FALLBACK - Static Placeholder
@@ -495,7 +495,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <span className="uppercase">EMAIL</span>
                 </a>
                 <a
-                  href="https://github.com/antonahmad-s"
+                  href={CONTACT.github}
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={isOpen ? 0 : -1}
@@ -506,7 +506,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <span className="uppercase">GITHUB</span>
                 </a>
                 <a
-                  href="https://linkedin.com/in/antonahmad"
+                  href={CONTACT.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={isOpen ? 0 : -1}
