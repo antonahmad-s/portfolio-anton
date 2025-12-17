@@ -280,10 +280,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             className="object-cover"
             sizes="350px"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent">
-            <span className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm">
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent pointer-events-auto">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm hover:scale-110 hover:shadow-lg transition-all cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
+            >
               View Details
-            </span>
+            </a>
           </div>
         </div>
       </div>
@@ -308,10 +314,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             className="object-cover w-full h-full"
           />
           {/* Button Overlay - Centered on Image */}
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent">
-            <span className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm">
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-ink/80 to-transparent pointer-events-auto">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-accent text-ink px-4 py-2 text-xs font-mono font-bold uppercase shadow-brutal-sm hover:scale-110 hover:shadow-lg transition-all cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
+            >
               View Details
-            </span>
+            </a>
           </div>
         </div>
       </div>
