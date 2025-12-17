@@ -1,9 +1,9 @@
 /**
- * Legacy About Component Export
+ * About Section - Re-export Module
  *
- * This file re-exports the refactored About component from the modular structure.
- * Maintains backward compatibility with existing imports.
+ * This file serves as a public API for the About section.
+ * The actual implementation is in ./about/index.tsx
  *
  * @see ./about/index.tsx for the actual implementation
  */
-export { About as default, About } from './about/index';
+export { AboutSection as About, About as default } from './about/index';
