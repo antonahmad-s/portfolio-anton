@@ -6,4 +6,4 @@
  *
  * @see ./about/index.tsx for the actual implementation
  */
-export { AboutSection as About, About as default } from './about/index';
+export { About, default } from './about/index';
