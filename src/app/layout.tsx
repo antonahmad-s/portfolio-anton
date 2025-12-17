@@ -142,6 +142,52 @@ export default function RootLayout({
 
         {/* DNS Prefetch for faster resolution */}
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+        {/* Preload critical above-fold image for LCP optimization */}
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/photos/Photo_Anton.webp"
+          type="image/webp"
+          fetchPriority="high"
+        />
+
+        {/* Structured Data - Person/ProfilePage Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ProfilePage',
+              mainEntity: {
+                '@type': 'Person',
+                name: 'Anton Ahmad Susilo',
+                jobTitle: 'Quality Assurance Architect',
+                description:
+                  'Senior Quality Assurance Engineer with 5+ years specializing in Financial & IT Systems. Expert in test automation and transitioning into AI-powered web development.',
+                url: 'https://antonahmad.dev',
+                image: 'https://antonahmad.dev/assets/photos/Photo_Anton.webp',
+                sameAs: [
+                  'https://linkedin.com/in/antonahmadsusilo',
+                  'https://github.com/antonahmad-s',
+                ],
+                knowsAbout: [
+                  'Quality Assurance',
+                  'Test Automation',
+                  'Katalon Studio',
+                  'Selenium WebDriver',
+                  'Next.js',
+                  'React',
+                  'TypeScript',
+                  'Financial Systems Testing',
+                ],
+              },
+            }),
+          }}
+        />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://antonahmad.dev/" />
       </head>
 
       <body
