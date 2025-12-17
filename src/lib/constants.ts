@@ -39,12 +39,12 @@ export const PROJECTS: Project[] = [
     coordinates: { x: 102, y: 44 },
     imageUrl:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
-    link: CONTACT.github,
+    link: 'https://trackwise.dev',
     techStack: [
       'API Development',
-      'Automation',
+      'Bug Centralization',
       'Notification System',
-      'Database',
+      'Full Stack Development',
     ],
   },
   {
@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
     coordinates: { x: 89, y: 12 },
     imageUrl:
       'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
-    link: CONTACT.github,
+    link: 'https://shallysabila.works',
     techStack: ['Next.js', 'Semantic HTML', 'SEO', 'Responsive Design'],
   },
 ];
