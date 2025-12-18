@@ -232,7 +232,7 @@ const Experience: React.FC = () => {
                   inline-block px-2 py-1 font-mono text-xs font-bold mb-4
                   ${
                     exp.status === 'latest'
-                      ? 'bg-accent text-ink'
+                      ? 'bg-accent text-black'
                       : 'border border-ink/50 text-ink/70'
                   }
                 `}
@@ -328,7 +328,7 @@ const Experience: React.FC = () => {
                       inline-block px-2 py-0.5 font-mono font-bold mb-3
                       ${
                         exp.status === 'latest'
-                          ? 'bg-accent text-ink'
+                          ? 'bg-accent text-black'
                           : 'border border-ink/50 text-ink/70'
                       }
                     `}

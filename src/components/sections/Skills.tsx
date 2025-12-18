@@ -332,7 +332,7 @@ const Skills: React.FC = () => {
                     rounded-bl-lg
                     ${
                       category.badgeColor === 'accent'
-                        ? 'bg-accent text-ink'
+                        ? 'bg-accent text-black'
                         : 'bg-accent-secondary text-paper'
                     }
                   `}
@@ -353,7 +353,7 @@ const Skills: React.FC = () => {
 
                 {/* Skills List - Fixed with pointer-events */}
                 <div className="flex-1 min-h-0">
-                  <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-accent/10 scrollbar-track-transparent pr-2">
+                  <div className="h-full overflow-visible pr-2">
                     <ul className="flex flex-wrap gap-2 pb-2" role="list">
                       {category.skills.map((skill) => {
                         const isActive = activeTooltip === skill.name;

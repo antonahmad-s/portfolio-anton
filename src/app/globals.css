@@ -189,6 +189,7 @@
     --noise-opacity: var(--noise-opacity-light);
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(26, 26, 26, 0.08);
+    --card-bg: rgba(255, 255, 255, 0.9); /* Card background for light mode */
 
     /* ========================================
        INVERTED THEME VARIABLES FOR RIGHT PANEL
@@ -217,6 +218,7 @@
     --noise-opacity: var(--noise-opacity-dark);
     --glass-bg: rgba(10, 10, 10, 0.8);
     --glass-border: rgba(224, 224, 224, 0.08);
+    --card-bg: #1a1a1a; /* Card background for dark mode - lighter than bg-paper (#0a0a0a) */
 
     /* ========================================
        INVERTED THEME VARIABLES FOR RIGHT PANEL
@@ -273,7 +275,7 @@
 @layer utilities {
   /* Glassmorphism Components */
   .glass-panel {
-    background: var(--glass-bg);
+    background: var(--card-bg);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);

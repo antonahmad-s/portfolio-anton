@@ -524,7 +524,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 ======================================== */}
             <div className="diagnostic-item pt-8 border-t panel-inverted-border relative">
               {/* EST. 2020 Badge */}
-              <div className="absolute -top-4 right-0 px-3 py-1 font-mono text-[10px] font-bold tracking-widest panel-inverted-accent bg-accent text-ink">
+              <div className="absolute -top-4 right-0 px-3 py-1 font-mono text-[10px] font-bold tracking-widest bg-accent text-black">
                 EST. 2020
               </div>
 
