@@ -272,9 +272,9 @@ const Hero: React.FC = () => {
                 className="w-3 h-3 bg-success rounded-full animate-pulse"
                 aria-hidden="true"
               />
-              <span className="font-mono text-xs font-bold tracking-wider uppercase">
+              {/* <span className="font-mono text-xs font-bold tracking-wider uppercase">
                 SYSTEM STATUS: OPTIMAL
-              </span>
+              </span> */}
             </div>
           </div>
         </div>
