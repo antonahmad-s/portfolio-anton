@@ -241,9 +241,9 @@ const Hero: React.FC = () => {
           role="separator"
           aria-hidden="true"
         >
-          <div className="absolute right-0 -top-2.5 font-mono text-xs bg-accent px-2 py-1 text-black font-bold">
+          {/* <div className="absolute right-0 -top-2.5 font-mono text-xs bg-accent px-2 py-1 text-black font-bold">
             EST. 2020
-          </div>
+          </div> */}
         </div>
 
         {/* Subtitle Section */}
